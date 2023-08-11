@@ -1,15 +1,23 @@
+from typing import Any
+
 import requests
 from GenericClient.Client import Client
 from _open_weather import OpenWeatherRequest
 
+ALLOWED_OPTIONAL_PARS = ['limit']
+
 
 class GeocodingApiClient(Client):
 
-    def get_coordinates(self, city: str, country: str, limit: int) -> tuple[float, float]:
+    def get_coordinates(self, city: str, country: str, **kwargs) -> dict[str, Any]:
+        optional_args = self._parse_optional_parameters(
+            ALLOWED_OPTIONAL_PARS,
+            kwargs
+        )
         http_request = OpenWeatherRequest.GET_COORDINATE.format(
             city=city,
             country=country,
-            limit=limit,
+            limit=optional_args['limit'],
             api_key=self.api_key
         )
         try:
@@ -17,10 +25,13 @@ class GeocodingApiClient(Client):
         except:
             raise "Error while requesting for coordinates"
         response = self._parse_response(response)
-        return response["lat"], response["lon"]
+        return {
+            'lat': response["lat"],
+            'lon': response["lon"]
+        }
 
 
 if __name__ == "__main__":
-    api_key = "API_KEY"
-    response = GeocodingApiClient(api_key).get_coordinates("Sosnowiec", "PL", 1)
+    api_key = "7d31a3f3f66a92ac5744ea0572e5bcf5"
+    response = GeocodingApiClient(api_key).get_coordinates("Sosnowiec", "PL")
     print(response)

@@ -3,6 +3,9 @@ class OpenWeatherRequest:
     CURRENT_WEATHER = "https://api.openweathermap.org/data/2.5/weather?q={city},{country}&appid={api_key}&lang={lang}&units={units}&mode={mode}"
     FORECAST = "https://api.openweathermap.org/data/2.5/forecast?q={city},{country}&appid={api_key}&mode={mode}&cnt={cnt}&units={units}&lang={lang}"
     WEATHER_MAP = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}"
+    CURR_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
+    FORECAST_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={lat}&lon={lon}&appid={api_key}"
+    HISTORICAL_AIR_POLLUTION = "http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={api_key}"
 
 class Unit:
     KELVIN = ""

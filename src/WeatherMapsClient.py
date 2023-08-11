@@ -74,8 +74,15 @@ class ZoomLevelZet:
 
 class WeatherMapClient(Client):
 
+    _IMG_FILE_TEMPLATE = '\map_{layer}_{date}.png'
+
     def _parse_png_map(self, data):
         return Image.open(BytesIO(data))
+
+    def save_to_png(self, data: bytes, path: str, name: str):
+        img = self._parse_png_map(data)
+        path = path if path[-1] != "\\" else path[:-1]
+        img.save(path + name, 'png')
 
     def get_map(self, layer, z, x, y, **kwargs):
 
@@ -90,20 +97,18 @@ class WeatherMapClient(Client):
             response = requests.get(http_request)
         except:
             raise "Error while requesting for current weather"
-        img = self._parse_png_map(response.content)
-        img.save(os.getcwd() + '\map_{layer}_{date}.png'.format(
-            layer=layer,
-            date=datetime.today().strftime('%Y-%m-%d')
-        ), 'png')
+
+        return response
 
     def get_all_maps(self, z, x, y, **kwargs):
-        for layer in Layers():
-            self.get_map(layer, z, x, y, **kwargs)
+        resp_dict = {layer: self.get_map(layer, z, x, y, **kwargs) for layer in Layers()}
+        return resp_dict
 
 
 if __name__ == "__main__":
-    api_key = "API_KEY"
-    WeatherMapClient(api_key).get_all_maps(
+    api_key = "7d31a3f3f66a92ac5744ea0572e5bcf5"
+    response = WeatherMapClient(api_key).get_map(
+        Layers._sea_level_pressure,
         ZoomLevelZet.two,
         2,
         2
