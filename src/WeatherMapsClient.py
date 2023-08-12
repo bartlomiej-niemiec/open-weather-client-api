@@ -106,7 +106,7 @@ class WeatherMapClient(Client):
 
 
 if __name__ == "__main__":
-    api_key = "7d31a3f3f66a92ac5744ea0572e5bcf5"
+    api_key = "API_KEY"
     response = WeatherMapClient(api_key).get_map(
         Layers._sea_level_pressure,
         ZoomLevelZet.two,
