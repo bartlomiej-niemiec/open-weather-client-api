@@ -1,35 +1,12 @@
-from dataclasses import dataclass
 from datetime import datetime
-import time
 import requests
-from _open_weather import OpenWeatherRequest
 from src.GenericClient.Client import Client
 from src.GeocodingClient import GeocodingApiClient
+from src._utils import UnixTime
 
-
-@dataclass
-class UnixTime:
-    year: int
-    month: int
-    day: int
-    hour: int = 0
-    minutes: int = 0
-
-    def _to_unix_timestamp(self):
-        date_time = datetime(
-            self.year,
-            self.month,
-            self.day,
-            self.hour,
-            self.minutes
-        )
-        return time.mktime(date_time.timetuple())
-
-    def __str__(self):
-        return str(int(self._to_unix_timestamp()))
-
-    def __repr__(self):
-        return self.__str__()
+_CURR_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
+_FORECAST_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={lat}&lon={lon}&appid={api_key}"
+_HISTORICAL_AIR_POLLUTION = "http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={api_key}"
 
 
 class AirPollutionClient(Client):
@@ -54,12 +31,11 @@ class AirPollutionClient(Client):
         dict_response = self._response_dt_to_date(dict_response)
         return dict_response
 
-
     def current_air_pollution(self, city: str, country: str):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = OpenWeatherRequest.CURR_AIR_POLLUTION.format(
+        http_request = _CURR_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             api_key=self.api_key
@@ -75,7 +51,7 @@ class AirPollutionClient(Client):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = OpenWeatherRequest.FORECAST_AIR_POLLUTION.format(
+        http_request = _FORECAST_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             api_key=self.api_key
@@ -91,7 +67,7 @@ class AirPollutionClient(Client):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = OpenWeatherRequest.HISTORICAL_AIR_POLLUTION.format(
+        http_request = _HISTORICAL_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             start=str(start),

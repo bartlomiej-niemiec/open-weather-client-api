@@ -1,11 +1,9 @@
 from typing import Any
-
 import requests
-from GenericClient.Client import Client
-from _open_weather import OpenWeatherRequest
+from src.GenericClient.Client import Client
 
 ALLOWED_OPTIONAL_PARS = ['limit']
-
+_GET_COORDINATE = "https://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit={limit}&appid={api_key}"
 
 class GeocodingApiClient(Client):
 
@@ -14,7 +12,7 @@ class GeocodingApiClient(Client):
             ALLOWED_OPTIONAL_PARS,
             kwargs
         )
-        http_request = OpenWeatherRequest.GET_COORDINATE.format(
+        http_request = _GET_COORDINATE.format(
             city=city,
             country=country,
             limit=optional_args['limit'],
@@ -34,4 +32,3 @@ class GeocodingApiClient(Client):
 if __name__ == "__main__":
     api_key = "API_KEY"
     response = GeocodingApiClient(api_key).get_coordinates("Sosnowiec", "PL")
-    print(response)
