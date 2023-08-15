@@ -3,7 +3,7 @@ from src.GenericClient.Client import Client
 from io import BytesIO
 from PIL import Image
 from Layers import Layers
-from ZoomLevel import ZetZoomLevel
+from MapsCoordinates import ZoomLevel, MapCoordinates
 
 ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
 _WEATHER_MAP = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}"
@@ -42,9 +42,10 @@ class WeatherMapClient(Client):
 
 if __name__ == "__main__":
     api_key = "API_KEY"
+    map_coordinates = MapCoordinates(ZoomLevel.two)
     response = WeatherMapClient(api_key).get_map(
         Layers._sea_level_pressure,
-        ZetZoomLevel.two,
-        2,
-        2
+        map_coordinates.z,
+        map_coordinates.x,
+        map_coordinates.y
     )
