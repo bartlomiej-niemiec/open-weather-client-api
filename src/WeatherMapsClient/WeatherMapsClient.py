@@ -19,7 +19,7 @@ class WeatherMapClient(Client):
         path = path if path[-1] != "\\" else path[:-1]
         img.save(path + name, 'png')
 
-    def get_map(self, layer, z, x, y, **kwargs):
+    def get_map(self, layer, z, x, y):
 
         http_request = _WEATHER_MAP.format(
             layer=layer,
@@ -35,9 +35,9 @@ class WeatherMapClient(Client):
 
         return response
 
-    def get_all_maps(self, z, x, y, **kwargs):
-        resp_dict = {layer: self.get_map(layer, z, x, y, **kwargs) for layer in Layers()}
-        return resp_dict
+    def get_all_maps(self, z, x, y):
+        maps = {layer: self.get_map(layer, z, x, y) for layer in Layers()}
+        return maps
 
 
 if __name__ == "__main__":

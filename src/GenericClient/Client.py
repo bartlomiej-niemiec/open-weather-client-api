@@ -11,15 +11,16 @@ class Client:
         self.api_key = api_key
 
     def _parse_response(self, response, parse_format=None):
-        if not parse_format:
-            json_response = json.loads(response.text)
-            if isinstance(json_response, List):
-                return json_response[Client._DICT_INDEX]
-            return json_response
-        elif parse_format == Format.JSON:
-            return response.json()
-        elif parse_format == Format.XML:
-            return response.text
+        if response.text:
+            if not parse_format:
+                json_response = json.loads(response.text)
+                if isinstance(json_response, List) and json_response:
+                    return json_response[Client._DICT_INDEX]
+                return json_response
+            elif parse_format == Format.JSON:
+                return response.json()
+            elif parse_format == Format.XML:
+                return response.text
 
     def _parse_optional_parameters(self, allowed_optional_pars, pars):
         optional_args = {par: "" for par in allowed_optional_pars}
