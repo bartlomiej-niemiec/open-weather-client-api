@@ -1,5 +1,4 @@
-import json
-
+from Measurment import StationMeasurement
 import requests
 from src.GenericClient.Client import Client
 from WeatherStation import Station, create_station_from_json
@@ -24,11 +23,11 @@ class WeatherStationClient(Client):
             raise "Error while requesting for coordinates"
         return response
 
-    def send_measurement(self):
+    def send_measurement(self, StationMeasurement):
         #TO DO
         pass
 
-    def get_send_measurement(self):
+    def get_measurement(self):
         #TO DO
         pass
 
@@ -40,39 +39,8 @@ class WeatherStationClient(Client):
             response = requests.get(http_request)
         except:
             raise "Error while requesting for list of all stations"
-        if self._check_if_list(response.text):
-            response = self._parse_to_list(response.text)
-        else:
-            response = self._parse_response(response)
-        stations = []
-        if response:
-            for jsonString in response:
-                stations.append(
-                    create_station_from_json(jsonString)
-                )
-        return stations
-
-    def _check_if_list(self, jsonString):
-        json_is_list = False
-        if jsonString[0] == '[' and jsonString[-1] == ']':
-            json_is_list = True
-        return json_is_list
-
-    def _parse_to_list(self, jsonString):
-        in_element = False
-        str_element = ""
-        list_of_elements = []
-        for char in jsonString[1:-1]:
-            if in_element:
-                str_element += char
-            if char == "{":
-                in_element = True
-                str_element += char
-            if char == "}":
-                list_of_elements.append(str_element)
-                str_element = ""
-                in_element = False
-        return list_of_elements
+        response = self._parse_response(response)
+        return response
 
     def get_station_info(self, station_id):
         http_request = _GET_STATION_INFO.format(
@@ -124,16 +92,3 @@ if __name__ == "__main__":
         longitude=0.0,
         altitude=150
     )
-    # for i in range(10):
-    #     station.name = "Test Station" + f" {i}"
-    #     station.external_id = str(i)
-    #     station.latitude += i
-    #     station.longitude += i
-    #     station.altitude += i
-    #     print(client.register_station(json.loads(station.toJSON())))
-    resp = client.get_all_stations()
-    if isinstance(resp, list):
-        for station in resp:
-            print(station)
-            #client.delete_station_info(station['id'])
-    # print(client.get_all_stations())

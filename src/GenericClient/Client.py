@@ -1,5 +1,4 @@
 from typing import List
-
 from src._open_weather import Format
 import json
 
@@ -15,7 +14,7 @@ class Client:
             if not parse_format:
                 json_response = json.loads(response.text)
                 if isinstance(json_response, List) and json_response:
-                    return json_response[Client._DICT_INDEX]
+                    return json_response
                 return json_response
             elif parse_format == Format.JSON:
                 return response.json()
