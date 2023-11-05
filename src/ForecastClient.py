@@ -2,18 +2,19 @@ import requests
 from src.GenericClient.Client import Client
 from _open_weather import Unit, Language, Format
 
-ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
-_FORECAST = "https://api.openweathermap.org/data/2.5/forecast?q={city},{country}&appid={api_key}&mode={mode}&cnt={cnt}&units={units}&lang={lang}"
 
 class ForecastClient(Client):
+
+    ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
+    _FORECAST = "https://api.openweathermap.org/data/2.5/forecast?q={city},{country}&appid={api_key}&mode={mode}&cnt={cnt}&units={units}&lang={lang}"
 
     def get_forecast(self, city, country, **kwargs):
 
         optional_args = self._parse_optional_parameters(
-            ALLOWED_OPTIONAL_PARS,
+            self.ALLOWED_OPTIONAL_PARS,
             kwargs
         )
-        http_request = _FORECAST.format(
+        http_request = self._FORECAST.format(
             city=city,
             country=country,
             api_key=self.api_key,

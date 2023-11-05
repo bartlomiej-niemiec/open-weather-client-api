@@ -2,17 +2,18 @@ from typing import Any
 import requests
 from src.GenericClient.Client import Client
 
-ALLOWED_OPTIONAL_PARS = ['limit']
-_GET_COORDINATE = "https://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit={limit}&appid={api_key}"
 
 class GeocodingApiClient(Client):
 
+    ALLOWED_OPTIONAL_PARS = ['limit']
+    _GET_COORDINATE = "https://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit={limit}&appid={api_key}"
+
     def get_coordinates(self, city: str, country: str, **kwargs) -> dict[str, Any]:
         optional_args = self._parse_optional_parameters(
-            ALLOWED_OPTIONAL_PARS,
+            self.ALLOWED_OPTIONAL_PARS,
             kwargs
         )
-        http_request = _GET_COORDINATE.format(
+        http_request = self._GET_COORDINATE.format(
             city=city,
             country=country,
             limit=optional_args['limit'],

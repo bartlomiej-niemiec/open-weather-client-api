@@ -5,11 +5,12 @@ from PIL import Image
 from Layers import Layers
 from MapsCoordinates import ZoomLevel, MapCoordinates
 
-ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
-_WEATHER_MAP = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}"
 
 class WeatherMapClient(Client):
+
     _IMG_FILE_TEMPLATE = '\map_{layer}_{date}.png'
+    ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
+    _WEATHER_MAP = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}"
 
     def _parse_png_map(self, data):
         return Image.open(BytesIO(data))
@@ -21,7 +22,7 @@ class WeatherMapClient(Client):
 
     def get_map(self, layer, z, x, y):
 
-        http_request = _WEATHER_MAP.format(
+        http_request = self._WEATHER_MAP.format(
             layer=layer,
             x=x,
             y=y,

@@ -4,12 +4,11 @@ from src.GenericClient.Client import Client
 from src.GeocodingClient import GeocodingApiClient
 from src._utils import UnixTime
 
-_CURR_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
-_FORECAST_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={lat}&lon={lon}&appid={api_key}"
-_HISTORICAL_AIR_POLLUTION = "http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={api_key}"
-
-
 class AirPollutionClient(Client):
+
+    _CURR_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}"
+    _FORECAST_AIR_POLLUTION = "https://api.openweathermap.org/data/2.5/air_pollution/forecast?lat={lat}&lon={lon}&appid={api_key}"
+    _HISTORICAL_AIR_POLLUTION = "http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={api_key}"
 
     def __init__(self, api_key):
         super().__init__(api_key)
@@ -35,7 +34,7 @@ class AirPollutionClient(Client):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = _CURR_AIR_POLLUTION.format(
+        http_request = self._CURR_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             api_key=self.api_key
@@ -51,7 +50,7 @@ class AirPollutionClient(Client):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = _FORECAST_AIR_POLLUTION.format(
+        http_request = self._FORECAST_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             api_key=self.api_key
@@ -67,7 +66,7 @@ class AirPollutionClient(Client):
         if not (coordinates := self._cache.get((city, country))):
             coordinates = self._geocoding_client.get_coordinates(city, country)
             self._cache[(city, country)] = coordinates
-        http_request = _HISTORICAL_AIR_POLLUTION.format(
+        http_request = self._HISTORICAL_AIR_POLLUTION.format(
             lat=coordinates['lat'],
             lon=coordinates['lon'],
             start=str(start),

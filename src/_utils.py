@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from datetime import datetime, time
+from datetime import datetime
+import time
 
 
 @dataclass
@@ -22,6 +23,9 @@ class UnixTime:
 
     def __str__(self):
         return str(int(self._to_unix_timestamp()))
+
+    def __int__(self):
+        return int(self._to_unix_timestamp())
 
     def __repr__(self):
         return self.__str__()
