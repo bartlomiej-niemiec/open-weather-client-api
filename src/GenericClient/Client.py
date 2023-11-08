@@ -8,12 +8,11 @@ class Client:
     def __init__(self, api_key):
         self.api_key = api_key
 
+
     def _parse_response(self, response, parse_format=None):
         if response.text:
             if not parse_format:
                 json_response = json.loads(response.text)
-                if isinstance(json_response, List) and json_response:
-                    return json_response
                 return json_response
             elif parse_format == Format.JSON:
                 return response.json()
