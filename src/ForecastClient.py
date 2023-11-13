@@ -10,7 +10,7 @@ class ForecastClient(Client):
 
     def get_forecast(self, city, country, **kwargs):
 
-        optional_args = self._parse_optional_parameters(
+        optional_args = _parse_optional_parameters(
             self.ALLOWED_OPTIONAL_PARS,
             kwargs
         )
@@ -27,7 +27,7 @@ class ForecastClient(Client):
             response = requests.get(http_request)
         except:
             raise "Error while requesting for current weather"
-        response = self._parse_response(response, optional_args['format'])
+        response = _parse_response(response, optional_args['format'])
         return response
 
 

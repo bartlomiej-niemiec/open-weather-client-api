@@ -5,6 +5,7 @@ class Unit:
 
 
 class Format:
+    DICT = "dict"
     JSON = 'json'
     XML = 'xml'
 

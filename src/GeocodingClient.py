@@ -9,7 +9,7 @@ class GeocodingApiClient(Client):
     _GET_COORDINATE = "https://api.openweathermap.org/geo/1.0/direct?q={city},{country}&limit={limit}&appid={api_key}"
 
     def get_coordinates(self, city: str, country: str, **kwargs) -> dict[str, Any]:
-        optional_args = self._parse_optional_parameters(
+        optional_args = _parse_optional_parameters(
             self.ALLOWED_OPTIONAL_PARS,
             kwargs
         )
@@ -23,7 +23,7 @@ class GeocodingApiClient(Client):
             response = requests.get(http_request)
         except:
             raise "Error while requesting for coordinates"
-        response = self._parse_response(response)
+        response = _parse_response(response)
         return {
             'lat': response["lat"],
             'lon': response["lon"]

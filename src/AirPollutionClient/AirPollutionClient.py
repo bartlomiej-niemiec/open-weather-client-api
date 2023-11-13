@@ -25,7 +25,7 @@ class AirPollutionClient(Client):
         return response
 
     def _process_response(self, response):
-        dict_response = self._parse_response(response)
+        dict_response = _parse_response(response)
         dict_response['timezone'] = 'UTC'
         dict_response = self._response_dt_to_date(dict_response)
         return dict_response

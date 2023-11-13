@@ -52,7 +52,7 @@ class Station(Client):
                                      headers=self._POST_HEADERS)
         except:
             raise "Error while requesting for list of all stations"
-        response = self._parse_response(response)
+        response = _parse_response(response)
         return response
 
     def get_measurement(self, type, limit, from_dt, to_dt):
@@ -68,7 +68,7 @@ class Station(Client):
             response = requests.get(http_request)
         except:
             raise "Error while requesting for list of all stations"
-        response = self._parse_response(response)
+        response = _parse_response(response)
         return response
 
     def update_station(self, station_parameters: StationParameters = None):
@@ -84,7 +84,7 @@ class Station(Client):
             )
         except:
             raise "Error while requesting for update information about station "
-        response = self._parse_response(response)
+        response = _parse_response(response)
         return response
 
     def delete_station(self):
@@ -96,6 +96,6 @@ class Station(Client):
             response = requests.delete(http_request)
         except:
             raise "Error while requesting for update information about station "
-        response = self._parse_response(response)
+        response = _parse_response(response)
         self.station_info = {}
         return response
