@@ -1,11 +1,6 @@
 import requests
-from abc import ABC, abstractmethod
 from src._open_weather import Format
 import json
-
-
-class UnknownOptionalParameter(Exception):
-    pass
 
 
 def parse_optional_parameters(allowed_optional_pars, pars):
@@ -19,10 +14,8 @@ def parse_optional_parameters(allowed_optional_pars, pars):
     return optional_args
 
 
-def merge_dicts(dict_1: dict, dict_2: dict) -> dict:
-    dict_1_copy = dict_1.copy()
-    dict_1_copy.update(dict_2)
-    return dict_1_copy
+class UnknownOptionalParameter(Exception):
+    pass
 
 
 def parse_response(response, parse_format=Format.DICT):
@@ -34,37 +27,57 @@ def parse_response(response, parse_format=Format.DICT):
         elif parse_format == Format.JSON:
             parsed_response = response.json()
         elif parse_format == Format.XML:
-            pass
+            parsed_response = text_response
         return parsed_response
 
 
-class Client(ABC):
+class Client:
     _APPID_PARAM_NAME = "appid"
     _POST_REQ_HEADERS = {'Content-Type': 'application/json'}
+    ALLOWED_OPTIONAL_PARS = []
 
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self._get_params_dict = None
-        self._post_data_dict = None
+        self._get_params_dict: dict = {}
+        self._post_data_dict: dict = {}
 
-    def _get_request(self, non_default_url=None):
+    def _get_request(self, url):
         self._get_params_dict[self._APPID_PARAM_NAME] = self.api_key
-        response = requests.get(
-            url=non_default_url or self._get_api_url(),
-            params=self._get_params_dict
-        )
+        try:
+            response = requests.get(
+                url=url,
+                params=self._get_params_dict
+            )
+            response.raise_for_status()
+        except Exception as exc:
+            raise GetRequestError(exc)
+
         return response
 
-    def _post_request(self, non_default_url=None):
+    def _post_request(self, url):
         self._post_data_dict[self._APPID_PARAM_NAME] = self.api_key
-        response = requests.post(
-            url=non_default_url or self._get_api_url(),
-            data=self._post_data_dict,
-            headers=self._POST_REQ_HEADERS
-        )
+        try:
+            response = requests.post(
+                url=url,
+                data=self._post_data_dict,
+                headers=self._POST_REQ_HEADERS
+            )
+            response.raise_for_status()
+        except Exception as exc:
+            raise PostRequestError(exc)
         return response
 
-    @abstractmethod
-    def _get_api_url(self) -> str:
-        empty_str = ""
-        return empty_str
+    def _add_optional_params_from_kwargs_to_request_params(self, kwargs):
+        optional_args = parse_optional_parameters(
+            self.ALLOWED_OPTIONAL_PARS,
+            kwargs
+        )
+        self._get_params_dict.update(optional_args)
+
+
+class GetRequestError(Exception):
+    pass
+
+
+class PostRequestError(Exception):
+    pass

@@ -1,5 +1,5 @@
 class Unit:
-    KELVIN = ""
+    KELVIN = None
     FAHRENHEIT = "imperial"
     CELSIUS = "metric"
 

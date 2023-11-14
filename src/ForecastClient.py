@@ -1,40 +1,50 @@
-import requests
-from src.GenericClient.Client import Client
-from _open_weather import Unit, Language, Format
+from src.GenericClient.Client import Client, parse_response
+from _open_weather import Format
 
 
-class ForecastClient(Client):
+class FiveDayForecastClient(Client):
+    ALLOWED_OPTIONAL_PARS = ['units', 'lang', 'mode', 'limit', 'cnt']
+    API_URL = "https://api.openweathermap.org/data/2.5/forecast"
 
-    ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
-    _FORECAST = "https://api.openweathermap.org/data/2.5/forecast?q={city},{country}&appid={api_key}&mode={mode}&cnt={cnt}&units={units}&lang={lang}"
-
-    def get_forecast(self, city, country, **kwargs):
-
-        optional_args = _parse_optional_parameters(
-            self.ALLOWED_OPTIONAL_PARS,
-            kwargs
+    def get_forecast_by_city_name(self, city_name: str, country_code: str = None, state_code=None, **kwargs):
+        self._get_params_dict = {
+            "q": (city_name, state_code, country_code)
+        }
+        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        request_response = self._get_request(
+            self.API_URL
         )
-        http_request = self._FORECAST.format(
-            city=city,
-            country=country,
-            api_key=self.api_key,
-            units=optional_args['unit'] or Unit.CELSIUS,
-            lang=optional_args['lang'] or Language.English,
-            mode=optional_args['format'],
-            cnt=optional_args['limit'] or '',
+        response = parse_response(
+            request_response,
+            parse_format=self._get_params_dict.get("mode") or Format.DICT
         )
-        try:
-            response = requests.get(http_request)
-        except:
-            raise "Error while requesting for current weather"
-        response = _parse_response(response, optional_args['format'])
         return response
 
+    def get_coordinates_by_zip_code(self, zip_code: str, country_code: str, **kwargs):
+        self._get_params_dict = {
+            "zip": (zip_code, country_code)
+        }
+        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        request_response = self._get_request(
+            self.API_URL
+        )
+        response = parse_response(
+            request_response,
+            parse_format=self._get_params_dict.get("mode") or Format.DICT
+        )
+        return response
 
-if __name__ == "__main__":
-    api_key = "API_KEY"
-    response = ForecastClient(api_key).get_forecast(
-        "Sosnowiec",
-        "PL",
-        format=Format.XML
-    )
+    def get_name_of_location_by_city_id(self, city_id, **kwargs):
+        self._get_params_dict = {
+            "id": city_id,
+        }
+        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        request_response = self._get_request(
+            self.API_URL
+        )
+        response = parse_response(
+            request_response,
+            parse_format=self._get_params_dict.get("mode") or Format.DICT
+        )
+        return response
+
