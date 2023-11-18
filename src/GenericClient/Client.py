@@ -38,15 +38,13 @@ class Client:
 
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self._get_params_dict: dict = {}
-        self._post_data_dict: dict = {}
 
-    def _get_request(self, url):
-        self._get_params_dict[self._APPID_PARAM_NAME] = self.api_key
+    def _get_request(self, url: str, params: dict) -> requests.Response:
+        params[self._APPID_PARAM_NAME] = self.api_key
         try:
             response = requests.get(
                 url=url,
-                params=self._get_params_dict
+                params=params
             )
             response.raise_for_status()
         except Exception as exc:
@@ -54,12 +52,12 @@ class Client:
 
         return response
 
-    def _post_request(self, url):
-        self._post_data_dict[self._APPID_PARAM_NAME] = self.api_key
+    def _post_request(self, url: str, data: dict) -> requests.Response:
+        data[self._APPID_PARAM_NAME] = self.api_key
         try:
             response = requests.post(
                 url=url,
-                data=self._post_data_dict,
+                data=data,
                 headers=self._POST_REQ_HEADERS
             )
             response.raise_for_status()
@@ -67,12 +65,12 @@ class Client:
             raise PostRequestError(exc)
         return response
 
-    def _add_optional_params_from_kwargs_to_request_params(self, kwargs):
+    def _add_optional_params_from_kwargs_to_request_params(self, request_params, kwargs):
         optional_args = parse_optional_parameters(
             self.ALLOWED_OPTIONAL_PARS,
             kwargs
         )
-        self._get_params_dict.update(optional_args)
+        request_params.update(optional_args)
 
 
 class GetRequestError(Exception):

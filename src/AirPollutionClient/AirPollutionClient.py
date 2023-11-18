@@ -44,41 +44,44 @@ class AirPollutionClient(Client):
     def current_air_pollution_by_city_name(self, city_name: str, country_code=None, state_code=None, **kwargs):
         lat, lon = self._get_coordinates(city_name, country_code, state_code)
 
-        self._get_params_dict = {
+        _get_params_dict = {
             "lat": lat,
             "lon": lon
         }
-        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.current]
+            self.API_URLS[AirPollutionUrls.current],
+            _get_params_dict
         )
         response = process_response(request_response)
         return response
 
     def forecast_air_pollution(self, city_name: str, country_code=None, state_code=None, **kwargs):
         lat, lon = self._get_coordinates(city_name, country_code, state_code)
-        self._get_params_dict = {
+        _get_params_dict = {
             "lat": lat,
             "lon": lon
         }
         self._add_optional_params_from_kwargs_to_request_params(kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.forecast]
+            self.API_URLS[AirPollutionUrls.forecast],
+            _get_params_dict
         )
         response = process_response(request_response)
         return response
 
     def historical_air_pollution(self, city_name: str, *, start: UnixTime, end: UnixTime, country_code=None, state_code=None, **kwargs):
         lat, lon = self._get_coordinates(city_name, country_code, state_code)
-        self._get_params_dict = {
+        _get_params_dict = {
             "lat": lat,
             "lon": lon,
             "start": str(start),
             "end": str(end)
         }
-        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.forecast]
+            self.API_URLS[AirPollutionUrls.forecast],
+            _get_params_dict
         )
         response = process_response(request_response)
         return response

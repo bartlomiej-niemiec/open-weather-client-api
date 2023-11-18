@@ -18,35 +18,38 @@ class GeocodingApiClient(Client):
     ]
 
     def get_coordinates_by_location_name(self, city_name: str, country_code: str=None, state_code=None, **kwargs) -> dict[str, Any]:
-        self._get_params_dict = {
+        _get_params_dict = {
             "q": (city_name, state_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.by_location_name]
+            self.API_URLS[GeocodingUrls.by_location_name],
+            _get_params_dict
         )
         response = parse_response(request_response)
         return response
 
     def get_coordinates_by_zip_code(self, zip_code: str, country_code: str, **kwargs) -> dict[str, Any]:
-        self._get_params_dict = {
+        _get_params_dict = {
             "zip": (zip_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(kwargs)
+        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.by_zip_code]
+            self.API_URLS[GeocodingUrls.by_zip_code],
+            _get_params_dict
         )
         response = parse_response(request_response)
         return response
 
     def get_name_of_location_by_coordiantes(self, latitude, longitude, **kwargs) -> list:
-        self._get_params_dict = {
+        _get_params_dict = {
             "lat": latitude,
             "lon": longitude
         }
         self._add_optional_params_from_kwargs_to_request_params(kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.reverse]
+            self.API_URLS[GeocodingUrls.reverse],
+            _get_params_dict
         )
         response = parse_response(request_response)
         return response
