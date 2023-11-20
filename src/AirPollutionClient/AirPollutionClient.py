@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import IntEnum
-from src.GenericClient.Client import Client, parse_response
+from src.GenericClient.base_client import Client, parse_response
 from src.GeocodingClient import GeocodingApiClient
 from src._utils import UnixTime
 
@@ -93,37 +93,3 @@ class AirPollutionClient(Client):
             self._cache[(city_name, country_code, state_code)] = coordinates
 
         return coordinates["lat"], coordinates["lon"]
-
-
-if __name__ == "__main__":
-    api_key = "API_KEY"
-    end_time = datetime.now()
-    end = UnixTime(
-        year=end_time.year,
-        month=end_time.month,
-        day=end_time.day,
-        hour=end_time.hour,
-        minutes=end_time.minute,
-    )
-    start = UnixTime(
-        year=2023,
-        month=8,
-        day=2,
-    )
-    client = AirPollutionClient(api_key)
-    response = client.current_air_pollution_by_city_name(
-        'Sosnowiec',
-        'PL',
-    )
-    print(response)
-    response = client.forecast_air_pollution(
-        'Sosnowiec',
-        'PL',
-    )
-    print(response)
-    response = client.historical_air_pollution(
-        'Sosnowiec',
-        start=start,
-        end=end
-    )
-    print(response)

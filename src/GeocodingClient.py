@@ -1,6 +1,6 @@
 from enum import IntEnum
 from typing import Any
-from src.GenericClient.Client import Client, parse_response
+from src.GenericClient.base_client import Client, parse_response
 
 
 class GeocodingUrls(IntEnum):

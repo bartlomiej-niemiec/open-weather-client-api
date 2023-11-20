@@ -27,14 +27,14 @@ class CoordinatesUpperBound:
     nine = 511
 
 
-class Zoom(IntEnum):
-    zero = 0
-    one = 1
-    two = 2
-    three = 3
-    four = 4
-    five = 5
-    six = 6
-    seven = 7
-    eight = 8
-    nine = 9
+class MapArea(IntEnum):
+    Worldwide = 0
+    OneQuarterOfTheWorld = 1
+    Subcontinental = 2
+    LargestCountry = 3
+    LargestAsiaCountry = 4
+    LargeAfricanCountry = 5
+    LargeEuropeanCountry = 6
+    SmallCountry = 7
+    LargeMetropolitan = 8
+    Metropolitan = 9

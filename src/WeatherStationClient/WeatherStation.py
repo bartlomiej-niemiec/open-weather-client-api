@@ -1,7 +1,7 @@
 import json
 import requests
 from dataclasses import dataclass
-from src.GenericClient.Client import Client
+from src.GenericClient.base_client import Client
 
 
 def create_station_from_id(station_id, api_key):

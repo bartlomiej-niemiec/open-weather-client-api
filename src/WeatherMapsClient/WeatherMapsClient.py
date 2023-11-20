@@ -1,52 +1,26 @@
-import requests
-from src.GenericClient.Client import Client
-from io import BytesIO
-from PIL import Image
+from src.GenericClient.base_client import Client
 from Layers import Layers
-from MapsCoordinates import ZoomLevel, MapCoordinates
+from MapsCoordinates import MapCoordinates, MapParametersCreator
 
 
 class WeatherMapClient(Client):
+    _map_area = 0
+    _map_coordinates = 1
+    API_URL = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png"
 
-    _IMG_FILE_TEMPLATE = '\map_{layer}_{date}.png'
-    ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format', 'limit']
-    _WEATHER_MAP = "https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}"
-
-    def _parse_png_map(self, data):
-        return Image.open(BytesIO(data))
-
-    def save_to_png(self, data: bytes, path: str, name: str):
-        img = self._parse_png_map(data)
-        path = path if path[-1] != "\\" else path[:-1]
-        img.save(path + name, 'png')
-
-    def get_map(self, layer, z, x, y):
-
-        http_request = self._WEATHER_MAP.format(
+    def get_map(self, layer: str, map_parameters: MapParametersCreator):
+        api_url = self.API_URL.format(
             layer=layer,
-            x=x,
-            y=y,
-            z=z,
-            api_key=self.api_key
+            x=map_parameters[self._map_coordinates].x,
+            y=map_parameters[self._map_coordinates].y,
+            z=map_parameters[self._map_area]
         )
-        try:
-            response = requests.get(http_request)
-        except:
-            raise "Error while requesting for current weather"
+        request_response = self._get_request(
+            api_url,
+            {}
+        )
+        return request_response
 
-        return response
-
-    def get_all_maps(self, z, x, y):
-        maps = {layer: self.get_map(layer, z, x, y) for layer in Layers()}
+    def get_maps_for_all_layers(self, map_coordinates: MapCoordinates):
+        maps = {attr: self.get_map(value, map_coordinates) for attr, value in Layers().__dict__.items()}
         return maps
-
-
-if __name__ == "__main__":
-    api_key = "API_KEY"
-    map_coordinates = MapCoordinates(ZoomLevel.two)
-    response = WeatherMapClient(api_key).get_map(
-        Layers._sea_level_pressure,
-        map_coordinates.z,
-        map_coordinates.x,
-        map_coordinates.y
-    )

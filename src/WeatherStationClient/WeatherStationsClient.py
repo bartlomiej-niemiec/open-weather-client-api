@@ -1,5 +1,5 @@
 import requests
-from src.GenericClient.Client import Client
+from src.GenericClient.base_client import Client
 from WeatherStation import RegisterStationParameters, Station
 
 
