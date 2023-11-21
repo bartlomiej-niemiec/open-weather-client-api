@@ -8,3 +8,7 @@ class ValueOutOfRange(Exception):
 
 class UnsupportedZoomLevel(Exception):
     pass
+
+
+class ImageFormatNotAllowed(Exception):
+    pass
