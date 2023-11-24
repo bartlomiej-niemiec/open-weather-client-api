@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import IntEnum
 from src.GenericClient.base_client import Client, parse_response
 from src.GeocodingClient.GeocodingClient import GeocodingApiClient
-from src._utils import UnixTime
+from src.util.UnixTime import UnixTime
 
 
 class AirPollutionUrls(IntEnum):

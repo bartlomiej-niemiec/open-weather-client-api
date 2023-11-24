@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from src._utils import UnixTime
+from src.util.UnixTime import UnixTime
 
 
 @dataclass
