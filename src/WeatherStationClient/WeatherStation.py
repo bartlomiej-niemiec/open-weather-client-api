@@ -4,13 +4,6 @@ from dataclasses import dataclass
 from src.GenericClient.base_client import Client
 
 
-def create_station_from_id(station_id, api_key):
-    return Station(
-        StationParameters(id=station_id),
-        api_key
-    )
-
-
 @dataclass
 class RegisterStationParameters:
     external_id: str = None
@@ -20,15 +13,6 @@ class RegisterStationParameters:
     altitude: float = None
 
 
-@dataclass
-class StationParameters:
-    id: str
-    created_at: str
-    updated_at: str
-    rank: int
-    registration_parameters: RegisterStationParameters
-
-
 class Station(Client):
     _UPDATE_STATION_INFO = "http://api.openweathermap.org/data/3.0/stations/{station_id}?appid={api_key}"
     _DELETE_STATION = "http://api.openweathermap.org/data/3.0/stations/{station_id}?appid={api_key}"
@@ -36,9 +20,9 @@ class Station(Client):
     _GET_MEASUREMENT = "http://api.openweathermap.org/data/3.0/measurements?appid={api_key}&station_id={station_id}&type={type}&limit={limit}&from={from_dt}&to={to_dt}"
     _POST_HEADERS = {'Content-Type': 'application/json'}
 
-    def __init__(self, station_parameters: StationParameters, api_key):
+    def __init__(self, station_parameters: dict, api_key):
         super().__init__(api_key)
-        self.station_parameters = station_parameters
+        self._station_parameters = station_parameters
 
     def send_measurement(self, station_measurments):
         http_request = self._SEND_MEASUREMENT.format(
@@ -99,3 +83,6 @@ class Station(Client):
         response = _parse_response(response)
         self.station_info = {}
         return response
+
+    def get_station_parameters(self):
+        return self._station_parameters

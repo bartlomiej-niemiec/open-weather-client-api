@@ -1,7 +1,7 @@
 import requests
 
 from src.GenericClient.exceptions import GetRequestError, PostRequestError, UnknownOptionalParameter
-from src._open_weather import Format
+from src.WeatherClient._constants import Format
 import json
 
 
@@ -26,12 +26,26 @@ class Client:
 
         return response
 
+    def _delete_request(self, url: str, params: dict) -> requests.Response:
+        params[self._APPID_PARAM_NAME] = self.api_key
+        try:
+            response = requests.delete(
+                url=url,
+                params=params
+            )
+            response.raise_for_status()
+        except Exception as exc:
+            raise GetRequestError(exc)
+
+        return response
+
     def _post_request(self, url: str, data: dict) -> requests.Response:
-        data[self._APPID_PARAM_NAME] = self.api_key
+        # add api_key to url
+        url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
         try:
             response = requests.post(
                 url=url,
-                data=data,
+                json=data,
                 headers=self._POST_REQ_HEADERS
             )
             response.raise_for_status()

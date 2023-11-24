@@ -11,7 +11,7 @@ class GeocodingUrls(IntEnum):
 
 class GeocodingApiClient(Client):
     ALLOWED_OPTIONAL_PARS = ['limit']
-    API_URLS = [
+    _API_URLS = [
         "https://api.openweathermap.org/geo/1.0/direct",
         "http://api.openweathermap.org/geo/1.0/zip",
         "http://api.openweathermap.org/geo/1.0/reverse"
@@ -23,7 +23,7 @@ class GeocodingApiClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.by_location_name],
+            self._API_URLS[GeocodingUrls.by_location_name],
             _get_params_dict
         )
         response = parse_response(request_response)
@@ -35,7 +35,7 @@ class GeocodingApiClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.by_zip_code],
+            self._API_URLS[GeocodingUrls.by_zip_code],
             _get_params_dict
         )
         response = parse_response(request_response)
@@ -48,7 +48,7 @@ class GeocodingApiClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(kwargs)
         request_response = self._get_request(
-            self.API_URLS[GeocodingUrls.reverse],
+            self._API_URLS[GeocodingUrls.reverse],
             _get_params_dict
         )
         response = parse_response(request_response)

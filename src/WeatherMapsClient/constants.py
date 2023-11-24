@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 from enum import IntEnum
 
 
-class CoordinatesLowerBound:
+class ZoomCoordinatesLowerBound:
     zero = 0
     one = 0
     two = 0
@@ -14,7 +15,7 @@ class CoordinatesLowerBound:
     nine = 0
 
 
-class CoordinatesUpperBound:
+class ZoomCoordinatesUpperBound:
     zero = 1
     one = 1
     two = 3
@@ -38,3 +39,12 @@ class MapArea(IntEnum):
     SmallCountry = 7
     LargeMetropolitan = 8
     Metropolitan = 9
+
+
+@dataclass(frozen=True)
+class Layers:
+    clouds: str = "clouds_new"
+    precipitation: str = "precipitation_new"
+    sea_level_pressure: str = "pressure_new"
+    wind_speed: str = "wind_new"
+    temperature: str = "temp_new"

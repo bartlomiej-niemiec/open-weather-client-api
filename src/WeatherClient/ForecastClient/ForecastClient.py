@@ -1,10 +1,10 @@
 from src.GenericClient.base_client import Client, parse_response
-from _open_weather import Format
+from src.WeatherClient._constants import Format
 
 
 class FiveDayForecastClient(Client):
     ALLOWED_OPTIONAL_PARS = ['units', 'lang', 'mode', 'limit', 'cnt']
-    API_URL = "https://api.openweathermap.org/data/2.5/forecast"
+    _API_URL = "https://api.openweathermap.org/data/2.5/forecast"
 
     def get_forecast_by_city_name(self, city_name: str, country_code: str = None, state_code=None, **kwargs):
         _get_params_dict = {
@@ -12,7 +12,7 @@ class FiveDayForecastClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(
@@ -27,7 +27,7 @@ class FiveDayForecastClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(
@@ -42,7 +42,7 @@ class FiveDayForecastClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(

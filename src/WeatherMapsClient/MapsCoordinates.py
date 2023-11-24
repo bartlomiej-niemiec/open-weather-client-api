@@ -1,4 +1,4 @@
-from constants import MapArea, CoordinatesLowerBound, CoordinatesUpperBound
+from constants import MapArea, ZoomCoordinatesLowerBound, ZoomCoordinatesUpperBound
 from src.WeatherMapsClient.exceptions import raise_out_of_range_exception, UnsupportedZoomLevel
 from collections import namedtuple
 
@@ -13,8 +13,8 @@ class MapParametersCreator:
     def create(map_area: int):
         if map_area == MapArea.Worldwide:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.zero,
-                CoordinatesUpperBound.zero,
+                ZoomCoordinatesLowerBound.zero,
+                ZoomCoordinatesUpperBound.zero,
             )
             map_parameters = MapParameters(map_area, map_coordinates)
 
@@ -22,8 +22,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.OneQuarterOfTheWorld:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.one,
-                CoordinatesUpperBound.one,
+                ZoomCoordinatesLowerBound.one,
+                ZoomCoordinatesUpperBound.one,
             )
             map_parameters = MapParameters(map_area, map_coordinates)
 
@@ -31,8 +31,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.Subcontinental:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.two,
-                CoordinatesUpperBound.two,
+                ZoomCoordinatesLowerBound.two,
+                ZoomCoordinatesUpperBound.two,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -41,8 +41,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.LargestCountry:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.three,
-                CoordinatesUpperBound.three,
+                ZoomCoordinatesLowerBound.three,
+                ZoomCoordinatesUpperBound.three,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -51,8 +51,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.LargestAsiaCountry:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.four,
-                CoordinatesUpperBound.four,
+                ZoomCoordinatesLowerBound.four,
+                ZoomCoordinatesUpperBound.four,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -61,8 +61,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.LargeAfricanCountry:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.five,
-                CoordinatesUpperBound.five,
+                ZoomCoordinatesLowerBound.five,
+                ZoomCoordinatesUpperBound.five,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -71,8 +71,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.LargeEuropeanCountry:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.six,
-                CoordinatesUpperBound.six,
+                ZoomCoordinatesLowerBound.six,
+                ZoomCoordinatesUpperBound.six,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -81,8 +81,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.SmallCountry:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.seven,
-                CoordinatesUpperBound.seven,
+                ZoomCoordinatesLowerBound.seven,
+                ZoomCoordinatesUpperBound.seven,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -91,8 +91,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.LargeMetropolitan:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.eight,
-                CoordinatesUpperBound.eight,
+                ZoomCoordinatesLowerBound.eight,
+                ZoomCoordinatesUpperBound.eight,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -101,8 +101,8 @@ class MapParametersCreator:
 
         elif map_area == MapArea.Metropolitan:
             map_coordinates = MapCoordinates(
-                CoordinatesLowerBound.nine,
-                CoordinatesUpperBound.nine,
+                ZoomCoordinatesLowerBound.nine,
+                ZoomCoordinatesUpperBound.nine,
             )
 
             map_parameters = MapParameters(map_area, map_coordinates)
@@ -119,6 +119,7 @@ class MapCoordinates:
     def __init__(self, lower_bound, upper_bound):
         self._lower_bound = lower_bound
         self._upper_bound = upper_bound
+        # set default coordinates to the middle value of bounds
         self._x = self._y = (lower_bound + upper_bound) // 2
 
     @property
@@ -127,7 +128,9 @@ class MapCoordinates:
 
     @x.setter
     def x(self, value: int):
-        if self._check_value(value):
+        if not isinstance(value, int):
+            value = int(value)
+        if self._is_value_in_bounds(value):
             self._x = value
 
     @property
@@ -136,16 +139,10 @@ class MapCoordinates:
 
     @y.setter
     def y(self, value: int):
-        if self._check_value(value):
-            self._y = value
-
-    def _check_value(self, value):
-        return self._is_value_type_correct(value) and self._is_value_in_bounds(value)
-
-    def _is_value_type_correct(self, value):
         if not isinstance(value, int):
-            raise TypeError("Only integers are possible")
-        return True
+            value = int(value)
+        if self._is_value_in_bounds(value):
+            self._y = value
 
     def _is_value_in_bounds(self, value):
         if not (self._lower_bound <= value <= self._upper_bound):

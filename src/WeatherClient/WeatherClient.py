@@ -3,7 +3,7 @@ from src.GenericClient.base_client import Client, parse_response
 
 class WeatherClient(Client):
     ALLOWED_OPTIONAL_PARS = ['unit', 'lang', 'format']
-    API_URL = "https://api.openweathermap.org/data/2.5/weather"
+    _API_URL = "https://api.openweathermap.org/data/2.5/weather"
 
     def current_weather_by_city_name(self, city_name, state_code=None, country_code=None, **kwargs):
 
@@ -12,7 +12,7 @@ class WeatherClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(request_response)
@@ -25,7 +25,7 @@ class WeatherClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(request_response)
@@ -38,7 +38,7 @@ class WeatherClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URL,
+            self._API_URL,
             _get_params_dict
         )
         response = parse_response(request_response)

@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import IntEnum
 from src.GenericClient.base_client import Client, parse_response
-from src.GeocodingClient import GeocodingApiClient
+from src.GeocodingClient.GeocodingClient import GeocodingApiClient
 from src._utils import UnixTime
 
 
@@ -30,7 +30,7 @@ def process_response(response):
 
 
 class AirPollutionClient(Client):
-    API_URLS = [
+    _API_URLS = [
         "https://api.openweathermap.org/data/2.5/air_pollution",
         "https://api.openweathermap.org/data/2.5/air_pollution/forecast",
         "http://api.openweathermap.org/data/2.5/air_pollution/history"
@@ -50,7 +50,7 @@ class AirPollutionClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.current],
+            self._API_URLS[AirPollutionUrls.current],
             _get_params_dict
         )
         response = process_response(request_response)
@@ -64,7 +64,7 @@ class AirPollutionClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.forecast],
+            self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
         response = process_response(request_response)
@@ -80,7 +80,7 @@ class AirPollutionClient(Client):
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
         request_response = self._get_request(
-            self.API_URLS[AirPollutionUrls.forecast],
+            self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
         response = process_response(request_response)
