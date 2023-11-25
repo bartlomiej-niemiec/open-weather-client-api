@@ -22,7 +22,7 @@ class UnixTime:
         return time.mktime(date_time.timetuple())
 
     def __str__(self):
-        return str(int(self._to_unix_timestamp()))
+        return str(self.__int__())
 
     def __int__(self):
         return int(self._to_unix_timestamp())

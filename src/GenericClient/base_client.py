@@ -53,6 +53,20 @@ class Client:
             raise PostRequestError(exc)
         return response
 
+    def _put_request(self, url: str, data: dict) -> requests.Response:
+        # add api_key to url
+        url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
+        try:
+            response = requests.put(
+                url=url,
+                json=data,
+                headers=self._POST_REQ_HEADERS
+            )
+            response.raise_for_status()
+        except Exception as exc:
+            raise PostRequestError(exc)
+        return response
+
     def _add_optional_params_from_kwargs_to_request_params(self, request_params, kwargs):
         optional_args = parse_optional_parameters(
             self.ALLOWED_OPTIONAL_PARS,
