@@ -36,7 +36,6 @@ class MeasurementWeatherDetails(MeasurementData):
 
 @dataclass
 class StationMeasurement(MeasurementData):
-    station_id: str = None
     dt: str = None  # Unix time
     temperature: float = None  # Celsius
     wind_speed: float = None  # m/s

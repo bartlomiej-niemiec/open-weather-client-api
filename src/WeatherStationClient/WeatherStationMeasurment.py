@@ -1,19 +1,18 @@
 from src.GenericClient.base_client import Client, parse_response
-from src.WeatherStationClient.StationParameters import StationParameters
+from src.WeatherStationClient.Measurment import MeasurementData
 
 
 class WeatherStationMeasurement(Client):
     _API_URL = "http://api.openweathermap.org/data/3.0/measurements"
 
-    def __init__(self, station_parameters: StationParameters, api_key):
+    def __init__(self, station_id, api_key):
         super().__init__(api_key)
-        self._station_parameters = station_parameters
+        self.station_id = station_id
 
-    def send_measurement(self, station_measurements):
-        measurements_array_dict = [measurement.toDict() for measurement in station_measurements]
+    def send_measurement(self, measurements: list[MeasurementData]):
         post_request_response = self._post_request(
             url=self._API_URL,
-            data=measurements_array_dict
+            data=self._get_measurements_dict_list(measurements)
         )
         response = parse_response(post_request_response)
         return response
@@ -21,7 +20,7 @@ class WeatherStationMeasurement(Client):
     def get_measurement(self, type, limit, from_dt, to_dt):
         _get_req_params = {
             "type": type,
-            "station_id": self._station_parameters['id'],
+            "station_id": self.station_id['id'],
             "limit": limit,
             "from": from_dt,
             "to": to_dt
@@ -33,8 +32,14 @@ class WeatherStationMeasurement(Client):
         measurements = parse_response(get_request_response)
         return measurements
 
-    def get_station_parameters(self):
-        return self._station_parameters
+    def _get_measurements_dict_list(self, measurements):
+        measurements_dict_list = []
+        for measurement in measurements:
+            dict_measurement = measurement.toDict()
+            self._add_station_id_to_measurement_data(dict_measurement)
+            measurements_dict_list.append(dict_measurement)
+        return measurements_dict_list
 
-    def set_station_parameters(self, station_parameters: StationParameters):
-        self._station_parameters = station_parameters
+    def _add_station_id_to_measurement_data(self, measurement):
+        measurement["station_id"] = self.station_id
+
