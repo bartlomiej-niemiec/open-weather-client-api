@@ -11,24 +11,6 @@ class AirPollutionUrls(IntEnum):
     historical = 2
 
 
-def unix_time_to_date(timestamp):
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-
-
-def response_dt_to_date(response):
-    for item in response['list']:
-        if timestamp := item.get('dt'):
-            item['dt'] = unix_time_to_date(timestamp)
-    return response
-
-
-def process_response(response):
-    dict_response = parse_response(response)
-    dict_response['timezone'] = 'UTC'
-    dict_response = response_dt_to_date(dict_response)
-    return dict_response
-
-
 class AirPollutionClient(Client):
     _API_URLS = [
         "https://api.openweathermap.org/data/2.5/air_pollution",
@@ -93,3 +75,21 @@ class AirPollutionClient(Client):
             self._cache[(city_name, country_code, state_code)] = coordinates
 
         return coordinates["lat"], coordinates["lon"]
+
+
+def process_response(response):
+    dict_response = parse_response(response)
+    dict_response['timezone'] = 'UTC'
+    dict_response = response_dt_to_date(dict_response)
+    return dict_response
+
+
+def response_dt_to_date(response):
+    for item in response['list']:
+        if timestamp := item.get('dt'):
+            item['dt'] = unix_time_to_date(timestamp)
+    return response
+
+
+def unix_time_to_date(timestamp):
+    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
