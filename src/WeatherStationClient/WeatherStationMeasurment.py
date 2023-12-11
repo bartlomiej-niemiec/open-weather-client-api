@@ -12,7 +12,7 @@ class WeatherStationMeasurement(Client):
     def send_measurement(self, measurements: list[MeasurementData]):
         post_request_response = self._post_request(
             url=self._API_URL,
-            data=self._get_measurements_dict_list(measurements)
+            data=self._build_measurement_data_for_request(measurements)
         )
         response = parse_response(post_request_response)
         return response
@@ -32,7 +32,7 @@ class WeatherStationMeasurement(Client):
         measurements = parse_response(get_request_response)
         return measurements
 
-    def _get_measurements_dict_list(self, measurements):
+    def _build_measurement_data_for_request(self, measurements):
         measurements_dict_list = []
         for measurement in measurements:
             dict_measurement = measurement.toDict()
