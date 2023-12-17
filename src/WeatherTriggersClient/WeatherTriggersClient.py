@@ -1,8 +1,9 @@
 from src.GenericClient.base_client import Client, parse_response
-from src.WeatherTriggers.Triggers.Trigger import Trigger
-from src.WeatherTriggers.Triggers.TriggerArea import PointTriggerArea, CoordinatesPoint
-from src.WeatherTriggers.Triggers.TriggerCondition import TriggerConditionCollection, SingleTriggerCondition
-from src.WeatherTriggers.Triggers.TriggerTimePeriod import TriggerTimePeriod, TimePeriod
+from src.WeatherTriggersClient.Triggers.Trigger import Trigger
+from src.WeatherTriggersClient.Triggers.TriggerArea import PointTriggerArea, CoordinatesPoint
+from src.WeatherTriggersClient.Triggers.TriggerCondition import TriggerConditionCollection, SingleTriggerCondition
+from src.WeatherTriggersClient.Triggers.TriggerDataFactory import TriggerDataFactory
+from src.WeatherTriggersClient.Triggers.TriggerTimePeriod import TriggerTimePeriod, TimePeriod
 
 
 class WeatherTriggersClient(Client):
@@ -11,7 +12,7 @@ class WeatherTriggersClient(Client):
     def register_station(self, register_trigger: Trigger):
         post_request_response = self._post_request(
             url=self._API_URL,
-            data=register_trigger.toDict()
+            data=TriggerDataFactory.create_trigger_data(register_trigger)
         )
         response = parse_response(post_request_response)
         return response
@@ -22,7 +23,6 @@ def create_trigger():
         start=TimePeriod(
             expression="after",
             amount=132000000
-
         ),
         end=TimePeriod(
             expression="after",
