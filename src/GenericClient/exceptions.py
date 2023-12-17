@@ -6,5 +6,13 @@ class PostRequestError(Exception):
     pass
 
 
+class PutRequestError(Exception):
+    pass
+
+
+class DeleteRequestError(Exception):
+    pass
+
+
 class UnknownOptionalParameter(Exception):
     pass

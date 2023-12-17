@@ -1,6 +1,7 @@
 import requests
 
-from src.GenericClient.exceptions import GetRequestError, PostRequestError, UnknownOptionalParameter
+from src.GenericClient.exceptions import GetRequestError, PostRequestError, PutRequestError,\
+    DeleteRequestError, UnknownOptionalParameter
 from src.WeatherClient._constants import Format
 import json
 
@@ -35,7 +36,7 @@ class Client:
             )
             response.raise_for_status()
         except Exception as exc:
-            raise GetRequestError(exc)
+            raise DeleteRequestError(exc)
 
         return response
 
@@ -64,7 +65,7 @@ class Client:
             )
             response.raise_for_status()
         except Exception as exc:
-            raise PostRequestError(exc)
+            raise PutRequestError(exc)
         return response
 
     def _add_optional_params_from_kwargs_to_request_params(self, request_params, kwargs):
