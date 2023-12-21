@@ -3,32 +3,32 @@ from enum import IntEnum
 
 
 class ZoomCoordinatesLowerBound:
-    zero = 0
-    one = 0
-    two = 0
-    three = 0
-    four = 0
-    five = 0
-    six = 0
-    seven = 0
-    eight = 0
-    nine = 0
+    Worldwide = 0
+    OneQuarterOfTheWorld = 0
+    Subcontinental = 0
+    LargestCountry = 0
+    LargestAsiaCountry = 0
+    LargeAfricanCountry = 0
+    LargeEuropeanCountry = 0
+    SmallCountry = 0
+    LargeMetropolitan = 0
+    Metropolitan = 0
 
 
 class ZoomCoordinatesUpperBound:
-    zero = 1
-    one = 1
-    two = 3
-    three = 7
-    four = 15
-    five = 31
-    six = 63
-    seven = 127
-    eight = 255
-    nine = 511
+    Worldwide = 1
+    OneQuarterOfTheWorld = 1
+    Subcontinental = 3
+    LargestCountry = 7
+    LargestAsiaCountry = 15
+    LargeAfricanCountry = 31
+    LargeEuropeanCountry = 63
+    SmallCountry = 127
+    LargeMetropolitan = 255
+    Metropolitan = 511
 
 
-class MapArea(IntEnum):
+class MapZoom(IntEnum):
     Worldwide = 0
     OneQuarterOfTheWorld = 1
     Subcontinental = 2

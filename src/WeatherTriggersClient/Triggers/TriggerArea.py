@@ -17,7 +17,9 @@ class BaseTriggerArea:
 @dataclass
 class PointTriggerArea(BaseTriggerArea):
 
-    def __init__(self, coordinates):
+    def __init__(self, coordinates: CoordinatesPoint):
+        if isinstance(coordinates, list):
+            raise TypeError("Invalid data passed to coordinates")
         super().__init__("Point", coordinates)
 
 

@@ -1,5 +1,13 @@
 from src.GenericClient.base_client import Client, parse_response
-from src.WeatherStationClient.Measurment import MeasurementData
+from src.WeatherStationClient.Measurment import StationMeasurement
+from src.WeatherStationClient.MeasurmentDataBuiler import StationMeasurementDataBuilder
+
+
+def _get_measurements_data_list(measurements):
+    builder = StationMeasurementDataBuilder()
+    for measurement in measurements:
+        StationMeasurementDataBuilder.add_measurement(measurement)
+    return builder.build()
 
 
 class WeatherStationMeasurement(Client):
@@ -9,10 +17,10 @@ class WeatherStationMeasurement(Client):
         super().__init__(api_key)
         self.station_id = station_id
 
-    def send_measurement(self, measurements: list[MeasurementData]):
+    def send_measurement(self, measurements):
         post_request_response = self._post_request(
             url=self._API_URL,
-            data=self._build_measurement_data_for_request(measurements)
+            data=_get_measurements_data_list(measurements)
         )
         response = parse_response(post_request_response)
         return response
@@ -31,15 +39,3 @@ class WeatherStationMeasurement(Client):
         )
         measurements = parse_response(get_request_response)
         return measurements
-
-    def _build_measurement_data_for_request(self, measurements):
-        measurements_dict_list = []
-        for measurement in measurements:
-            dict_measurement = measurement.toDict()
-            self._add_station_id_to_measurement_data(dict_measurement)
-            measurements_dict_list.append(dict_measurement)
-        return measurements_dict_list
-
-    def _add_station_id_to_measurement_data(self, measurement):
-        measurement["station_id"] = self.station_id
-

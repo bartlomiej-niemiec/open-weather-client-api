@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
-class MeasurementData(ABC):
+class IToDict(ABC):
 
     @abstractmethod
     def toDict(self) -> dict:
@@ -10,7 +10,7 @@ class MeasurementData(ABC):
 
 
 @dataclass
-class MeasurementCloudsDetails(MeasurementData):
+class MeasurementCloudsDetails(IToDict):
     distance: int = None  # m
     condition: str = None  # SKC, NSC, FEW, SCT, BKN, OVC
     cumulus: str = None  # CB, TCU
@@ -21,7 +21,7 @@ class MeasurementCloudsDetails(MeasurementData):
 
 
 @dataclass
-class MeasurementWeatherDetails(MeasurementData):
+class MeasurementWeatherDetails(IToDict):
     precipitation: str = None  # Additional description, METAR
     descriptor: str = None  # Additional description, METAR
     intensity: str = None  # Additional description, METAR
@@ -35,7 +35,7 @@ class MeasurementWeatherDetails(MeasurementData):
 
 
 @dataclass
-class StationMeasurement(MeasurementData):
+class StationMeasurement(IToDict):
     dt: str = None  # Unix time
     temperature: float = None  # Celsius
     wind_speed: float = None  # m/s
@@ -61,7 +61,7 @@ class StationMeasurement(MeasurementData):
         station_measurement_dict = {}
         for key, val in self.__dict__.items():
             if val:
-                if key == "clouds" and val is not None:
+                if key == "clouds":
                     if isinstance(val, list):
                         cloud_dict_array = []
                         for cloud in val:
@@ -69,7 +69,7 @@ class StationMeasurement(MeasurementData):
                         station_measurement_dict["clouds"] = cloud_dict_array
                     else:
                         station_measurement_dict["clouds"] = [val.toDict()]
-                elif key == "weather" and val is not None:
+                elif key == "weather":
                     if isinstance(val, list):
                         weather_dict_array = []
                         for weather in val:

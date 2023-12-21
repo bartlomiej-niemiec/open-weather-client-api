@@ -41,7 +41,6 @@ class Client:
         return response
 
     def _post_request(self, url: str, data: dict) -> requests.Response:
-        # add api_key to url
         url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
         try:
             response = requests.post(
@@ -55,7 +54,6 @@ class Client:
         return response
 
     def _put_request(self, url: str, data: dict) -> requests.Response:
-        # add api_key to url
         url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
         try:
             response = requests.put(
