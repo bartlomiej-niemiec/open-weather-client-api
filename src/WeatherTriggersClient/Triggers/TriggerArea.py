@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -9,36 +10,70 @@ class CoordinatesPoint:
 
 class BaseTriggerArea:
 
-    def __init__(self, area_type, coordinates):
+    def __init__(self, area_type, points):
         self.area_type = area_type
-        self.coordinates = coordinates
+        self.points = points
 
+    def _check_point_valid(self, point):
+        return isinstance(point, CoordinatesPoint)
+
+    def _raise_point_type_error(self):
+        TypeError("point parameter should be type of CoordinatesPoint")
 
 @dataclass
 class PointTriggerArea(BaseTriggerArea):
 
-    def __init__(self, coordinates: CoordinatesPoint):
-        if isinstance(coordinates, list):
-            raise TypeError("Invalid data passed to coordinates")
-        super().__init__("Point", coordinates)
+    def __init__(self, point: CoordinatesPoint):
+        if not self._check_point_valid(point):
+            self._raise_point_type_error()
+        super().__init__("Point", point)
 
 
 @dataclass
 class MultiPointTriggerArea(BaseTriggerArea):
 
-    def __init__(self, coordinates):
-        super().__init__(area_type="MultiPoint", coordinates=coordinates)
+    def __init__(self):
+        super().__init__(area_type="MultiPoint", points=[])
 
+    def add_point(self, point):
+        if not self._check_point_valid(point):
+            self._raise_point_type_error()
+        self.points.append(point)
+        return self
+
+    def add_points_list(self, points: List[CoordinatesPoint]):
+        self.points.extend(points)
+        return self
+
+    def remove_point(self, point):
+        self.points.remove(point)
+        return self
 
 @dataclass
 class PolygonTriggerArea(BaseTriggerArea):
 
-    def __init__(self, coordinates):
-        super().__init__(area_type="Polygon", coordinates=coordinates)
+    def __init__(self, polygon: List[CoordinatesPoint]):
+        if not self._is_polygon_closure_ok(polygon):
+            raise NotClosedPolygon("Provide Close Polygon")
+        super().__init__(area_type="Polygon", points=polygon)
+
+    def _is_polygon_closure_ok(self, polygon):
+        return (polygon[0].lat == polygon[-1].lat) and (polygon[0].lon == polygon[-1].lon)
 
 
 @dataclass
 class MultiPolygonTriggerArea(BaseTriggerArea):
 
-    def __init__(self, coordinates):
-        super().__init__(area_type="MultiPolygon", coordinates=coordinates)
+    def __init__(self):
+        super().__init__(area_type="MultiPolygon", points=[])
+
+    def add_polygon(self, polygon: PolygonTriggerArea):
+        self.points.append(polygon)
+        return self
+
+    def _is_polygon_closure_ok(self, polygon):
+        return (polygon[0].lat == polygon[-1].lat) and (polygon[0].lon == polygon[-1].lon)
+
+
+class NotClosedPolygon(Exception):
+    pass

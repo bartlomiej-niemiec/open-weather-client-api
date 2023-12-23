@@ -64,19 +64,48 @@ class GenericBuilderWithoutArea(TriggerDataBuilder):
 
 class PointTriggerBuilder(GenericBuilderWithoutArea):
 
-    def build_conditions(self, conditions: TriggerConditionCollection):
-        super().build_conditions(conditions)
-
-    def build_time_period(self, time_period: TriggerTimePeriod):
-        super().build_time_period(time_period)
-
     def build_area(self, area: BaseTriggerArea):
         self._data_build["build_area"] = [
             {
                 "type": area.area_type,
                 "coordinates": [
-                    area.coordinates.lat,
-                    area.coordinates.lon
+                    area.points.lat,
+                    area.points.lon
                 ]
+            }
+        ]
+
+
+class MultiPointTriggerBuilder(GenericBuilderWithoutArea):
+
+    def build_area(self, area: BaseTriggerArea):
+        coordinates = [[point.lat, point.lon] for point in area.points]
+        self._data_build["build_area"] = [
+            {
+                "type": area.area_type,
+                "coordinates": coordinates
+            }
+        ]
+
+
+class PolygonTriggerBuilder(GenericBuilderWithoutArea):
+
+    def build_area(self, area: BaseTriggerArea):
+        coordinates = [[point.lat, point.lon] for point in area.points]
+        self._data_build["build_area"] = [
+            {
+                "type": area.area_type,
+                "coordinates": [coordinates]
+            }
+        ]
+
+
+class MultiPolygonTriggerBuilder(GenericBuilderWithoutArea):
+    def build_area(self, area: BaseTriggerArea):
+        coordinates = [[[point.lat, point.lon] for point in polygon.points] for polygon in area.points]
+        self._data_build["build_area"] = [
+            {
+                "type": area.area_type,
+                "coordinates": [coordinates]
             }
         ]

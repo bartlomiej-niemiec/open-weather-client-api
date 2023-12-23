@@ -5,7 +5,10 @@ class StationMeasurementDataBuilder:
         self.station_id = station_id
 
     def add_measurement(self, measurement):
-        self._measurements.append(measurement)
+        if isinstance(measurement, list):
+            self._measurements.extend(measurement)
+        else:
+            self._measurements.append(measurement)
         return self
 
     def remove_measurement(self, measurement):

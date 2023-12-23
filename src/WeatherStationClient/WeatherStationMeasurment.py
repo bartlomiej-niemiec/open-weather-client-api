@@ -1,13 +1,7 @@
+from typing import List
 from src.GenericClient.base_client import Client, parse_response
 from src.WeatherStationClient.Measurment import StationMeasurement
 from src.WeatherStationClient.MeasurmentDataBuiler import StationMeasurementDataBuilder
-
-
-def _get_measurements_data_list(measurements):
-    builder = StationMeasurementDataBuilder()
-    for measurement in measurements:
-        StationMeasurementDataBuilder.add_measurement(measurement)
-    return builder.build()
 
 
 class WeatherStationMeasurement(Client):
@@ -17,10 +11,10 @@ class WeatherStationMeasurement(Client):
         super().__init__(api_key)
         self.station_id = station_id
 
-    def send_measurement(self, measurements):
+    def send_measurement(self, measurements: List[StationMeasurement]):
         post_request_response = self._post_request(
             url=self._API_URL,
-            data=_get_measurements_data_list(measurements)
+            data=convert_measurements_to_request_data(measurements, self.station_id)
         )
         response = parse_response(post_request_response)
         return response
@@ -39,3 +33,8 @@ class WeatherStationMeasurement(Client):
         )
         measurements = parse_response(get_request_response)
         return measurements
+
+
+def convert_measurements_to_request_data(measurements, station_id):
+    builder = StationMeasurementDataBuilder(station_id)
+    return builder.add_measurement(measurements).build()

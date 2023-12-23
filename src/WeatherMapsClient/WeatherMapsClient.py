@@ -1,6 +1,6 @@
 from src.GenericClient.base_client import Client
 from src.WeatherMapsClient.constants import Layers
-from src.WeatherMapsClient.MapArea import BaseMap
+from src.WeatherMapsClient.BaseMap import BaseMap
 from WeatherMap import BytesMapImage
 
 
@@ -12,9 +12,9 @@ class WeatherMapClient(Client):
     def get_map(self, layer: str, map: BaseMap):
         api_url = self._API_URL.format(
             layer=layer,
-            x=map.coordinates.x,
-            y=map.coordinates.y,
-            z=map.coordinates.z
+            x=map.x,
+            y=map.y,
+            z=map.z
         )
         request_response = self._get_request(
             api_url,

@@ -1,5 +1,5 @@
 from src.WeatherMapsClient.constants import MapZoom
-import src.WeatherMapsClient.MapArea as MapArea
+import src.WeatherMapsClient.Maps as MapArea
 from src.WeatherMapsClient.exceptions import UnsupportedZoomLevel
 
 

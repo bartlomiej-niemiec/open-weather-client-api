@@ -1,5 +1,7 @@
-from src.WeatherTriggersClient.Triggers.TriggerArea import PointTriggerArea
-from src.WeatherTriggersClient.Triggers.TriggerDataBuilder import PointTriggerBuilder
+from src.WeatherTriggersClient.Triggers.TriggerArea import PointTriggerArea, MultiPointTriggerArea,\
+    PolygonTriggerArea, MultiPolygonTriggerArea
+from src.WeatherTriggersClient.Triggers.TriggerDataBuilder import PointTriggerBuilder, MultiPointTriggerBuilder,\
+    PolygonTriggerBuilder, MultiPolygonTriggerBuilder
 from src.WeatherTriggersClient.Triggers.Trigger import Trigger
 from src.WeatherTriggersClient.Triggers.TriggerDataBuilder import TriggerDataBuilder
 
@@ -11,7 +13,14 @@ class TriggerDataFactory:
         builder = None
         if isinstance(trigger.area, PointTriggerArea):
             builder = PointTriggerBuilder()
-
+        elif isinstance(trigger.area, MultiPointTriggerArea):
+            builder = MultiPointTriggerBuilder()
+        elif isinstance(trigger.area, PolygonTriggerArea):
+            builder = PolygonTriggerBuilder()
+        elif isinstance(trigger.area, MultiPolygonTriggerArea):
+            builder = MultiPolygonTriggerBuilder()
+        else:
+            raise Exception("Unexpected trigger")
         build_trigger_data(builder, trigger)
         return builder.getAndFinishBuild()
 
