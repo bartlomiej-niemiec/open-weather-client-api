@@ -1,69 +1,30 @@
 import requests
 
-from src.GenericClient.exceptions import GetRequestError, PostRequestError, PutRequestError,\
-    DeleteRequestError, UnknownOptionalParameter
+from src.GenericClient.exceptions import UnknownOptionalParameter
 from src.WeatherClient._constants import Format
+from src.GenericClient.RequestBuilder import RequestDirector
 import json
 
 
 class Client:
-    _APPID_PARAM_NAME = "appid"
-    _POST_REQ_HEADERS = {'Content-Type': 'application/json'}
     ALLOWED_OPTIONAL_PARS = []
 
     def __init__(self, api_key: str):
         self.api_key = api_key
+        self._request_director = RequestDirector(api_key)
 
-    def _get_request(self, url: str, params: dict) -> requests.Response:
-        params[self._APPID_PARAM_NAME] = self.api_key
+    def _request(self, req_type, url, data, headers=None, exception=None):
+        request_session = requests.Session()
+        prepared_request = self._request_director.constructRequest(req_type, url, data, headers)
         try:
-            response = requests.get(
-                url=url,
-                params=params
-            )
+            response = request_session.send(prepared_request)
             response.raise_for_status()
         except Exception as exc:
-            raise GetRequestError(exc)
+            if exception:
+                raise exception(exc)
+            else:
+                raise Exception(exc)
 
-        return response
-
-    def _delete_request(self, url: str, params: dict) -> requests.Response:
-        params[self._APPID_PARAM_NAME] = self.api_key
-        try:
-            response = requests.delete(
-                url=url,
-                params=params
-            )
-            response.raise_for_status()
-        except Exception as exc:
-            raise DeleteRequestError(exc)
-
-        return response
-
-    def _post_request(self, url: str, data: dict) -> requests.Response:
-        url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
-        try:
-            response = requests.post(
-                url=url,
-                json=data,
-                headers=self._POST_REQ_HEADERS
-            )
-            response.raise_for_status()
-        except Exception as exc:
-            raise PostRequestError(exc)
-        return response
-
-    def _put_request(self, url: str, data: dict) -> requests.Response:
-        url += f"?{self._APPID_PARAM_NAME}={self.api_key}"
-        try:
-            response = requests.put(
-                url=url,
-                json=data,
-                headers=self._POST_REQ_HEADERS
-            )
-            response.raise_for_status()
-        except Exception as exc:
-            raise PutRequestError(exc)
         return response
 
     def _add_optional_params_from_kwargs_to_request_params(self, request_params, kwargs):

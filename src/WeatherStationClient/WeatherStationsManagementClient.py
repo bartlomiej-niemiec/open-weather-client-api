@@ -16,7 +16,8 @@ class WeatherStationManagementClient(Client):
     ]
 
     def register_station(self, station: RegisterStationParameters):
-        response = self._post_request(
+        response = self._request(
+            'POST',
             url=self._API_URLS[WeatherStationApiUrls.register_or_get_all],
             data=station.__dict__
         )
@@ -27,17 +28,19 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._delete_request(
+        response = self._request(
+            'DELETE',
             url=url_with_station_id,
-            params={}
+            data={}
         )
         return response.status_code == DELETE_REQ_SUCCESS_CODE
 
     def get_all_stations(self):
         get_request_data = {}
-        response = self._get_request(
+        response = self._request(
+            'GET',
             url=self._API_URLS[WeatherStationApiUrls.register_or_get_all],
-            params=get_request_data
+            data=get_request_data
         )
         station_parameters_list = parse_response(response)
         station_object_list = [StationParameters(station_parameters) for station_parameters in
@@ -48,9 +51,10 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._get_request(
+        response = self._request(
+            'GET',
             url=url_with_station_id,
-            params={}
+            data={}
         )
         station_parameters = parse_response(response)
         return StationParameters(station_parameters)
@@ -59,7 +63,8 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._put_request(
+        response = self._request(
+            'PUT',
             url=url_with_station_id,
             data=station_params.__dict__
         )

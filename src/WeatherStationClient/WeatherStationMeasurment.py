@@ -12,7 +12,8 @@ class WeatherStationMeasurement(Client):
         self.station_id = station_id
 
     def send_measurement(self, measurements: List[StationMeasurement]):
-        post_request_response = self._post_request(
+        post_request_response = self._request(
+            'POST',
             url=self._API_URL,
             data=convert_measurements_to_request_data(measurements, self.station_id)
         )
@@ -27,9 +28,10 @@ class WeatherStationMeasurement(Client):
             "from": from_dt,
             "to": to_dt
         }
-        get_request_response = self._get_request(
+        get_request_response = self._request(
+            'GET',
             url=self._API_URL,
-            params=_get_req_params
+            data=_get_req_params
         )
         measurements = parse_response(get_request_response)
         return measurements

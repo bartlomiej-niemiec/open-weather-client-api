@@ -11,7 +11,8 @@ class WeatherClient(Client):
             "q": (city_name, state_code, country_code)
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URL,
             _get_params_dict
         )
@@ -24,7 +25,8 @@ class WeatherClient(Client):
             "id": city_id
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URL,
             _get_params_dict
         )
@@ -37,7 +39,8 @@ class WeatherClient(Client):
             "zip": (zip_code, country_code)
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URL,
             _get_params_dict
         )

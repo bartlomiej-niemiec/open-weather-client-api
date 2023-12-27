@@ -31,7 +31,8 @@ class AirPollutionClient(Client):
             "lon": lon
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URLS[AirPollutionUrls.current],
             _get_params_dict
         )
@@ -45,7 +46,8 @@ class AirPollutionClient(Client):
             "lon": lon
         }
         self._add_optional_params_from_kwargs_to_request_params(kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
@@ -61,7 +63,8 @@ class AirPollutionClient(Client):
             "end": str(end)
         }
         self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._get_request(
+        request_response = self._request(
+            'GET',
             self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
@@ -93,3 +96,9 @@ def response_dt_to_date(response):
 
 def unix_time_to_date(timestamp):
     return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+
+if __name__ == "__main__":
+    API_KEY = "58c7c07e5e5f9dfa918e5847f785e014"
+    client = AirPollutionClient(API_KEY)
+    print(client.current_air_pollution_by_city_name(city_name="Sosnowiec"))
