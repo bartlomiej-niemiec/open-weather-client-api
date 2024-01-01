@@ -16,7 +16,7 @@ class WeatherMapClient(Client):
             y=map.y,
             z=map.z
         )
-        request_response = self._request(
+        request_response = self._send_request(
             'GET',
             api_url,
             {}

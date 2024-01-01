@@ -1,6 +1,6 @@
 from src.GenericClient.exceptions import UnknownOptionalParameter
 from src.WeatherClient._constants import Format
-
+import json
 
 def parse_optional_parameters(allowed_optional_pars, pars):
     optional_args = {}

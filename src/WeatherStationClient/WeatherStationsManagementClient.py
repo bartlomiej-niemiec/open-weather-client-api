@@ -12,7 +12,7 @@ class WeatherStationManagementClient(Client):
     ]
 
     def register_station(self, station: RegisterStationParameters):
-        response = self._request(
+        response = self._send_request(
             'POST',
             url=self._API_URLS[WeatherStationManagementApiUrls.register_or_get_all],
             data=station.__dict__
@@ -24,7 +24,7 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._request(
+        response = self._send_request(
             'DELETE',
             url=url_with_station_id,
             data={}
@@ -33,7 +33,7 @@ class WeatherStationManagementClient(Client):
 
     def get_all_stations(self):
         get_request_data = {}
-        response = self._request(
+        response = self._send_request(
             'GET',
             url=self._API_URLS[WeatherStationManagementApiUrls.register_or_get_all],
             data=get_request_data
@@ -47,7 +47,7 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._request(
+        response = self._send_request(
             'GET',
             url=url_with_station_id,
             data={}
@@ -59,7 +59,7 @@ class WeatherStationManagementClient(Client):
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
-        response = self._request(
+        response = self._send_request(
             'PUT',
             url=url_with_station_id,
             data=station_params.__dict__

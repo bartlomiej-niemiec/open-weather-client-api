@@ -14,7 +14,7 @@ class FiveDayForecastClient(Client):
         _get_params_dict = {
             "q": (city_name, state_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
         request_response = self._get_request(
             self._API_URL,
             _get_params_dict
@@ -29,7 +29,7 @@ class FiveDayForecastClient(Client):
         _get_params_dict = {
             "zip": (zip_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
         request_response = self._get_request(
             self._API_URL,
             _get_params_dict
@@ -44,7 +44,7 @@ class FiveDayForecastClient(Client):
         _get_params_dict = {
             "id": city_id,
         }
-        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
         request_response = self._get_request(
             self._API_URL,
             _get_params_dict

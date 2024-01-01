@@ -18,8 +18,8 @@ class GeocodingApiClient(Client):
         _get_params_dict = {
             "q": (city_name, state_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._request(
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
+        request_response = self._send_request(
             'GET',
             self._API_URLS[GeocodingUrls.by_location_name],
             _get_params_dict
@@ -31,8 +31,8 @@ class GeocodingApiClient(Client):
         _get_params_dict = {
             "zip": (zip_code, country_code)
         }
-        self._add_optional_params_from_kwargs_to_request_params(_get_params_dict, kwargs)
-        request_response = self._request(
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
+        request_response = self._send_request(
             'GET',
             self._API_URLS[GeocodingUrls.by_zip_code],
             _get_params_dict
@@ -45,8 +45,8 @@ class GeocodingApiClient(Client):
             "lat": latitude,
             "lon": longitude
         }
-        self._add_optional_params_from_kwargs_to_request_params(kwargs)
-        request_response = self._request(
+        self._verify_and_add_optional_params_to_request(kwargs)
+        request_response = self._send_request(
             'GET',
             self._API_URLS[GeocodingUrls.reverse],
             _get_params_dict
