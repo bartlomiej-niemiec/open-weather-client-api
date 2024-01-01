@@ -1,10 +1,14 @@
-from src.GenericClient.base_client import Client, parse_response
-from src.WeatherClient._constants import Format
+from src.GenericClient._utils import parse_text_response
+from src.GenericClient.base_client import Client
+from src.WeatherClient._constants import Format, ALLOWED_OPTIONAL_PARS_FORECAST
 
 
 class FiveDayForecastClient(Client):
-    ALLOWED_OPTIONAL_PARS = ['units', 'lang', 'mode', 'limit', 'cnt']
     _API_URL = "https://api.openweathermap.org/data/2.5/forecast"
+
+    def __init__(self, api_key: str):
+        super().__init__(api_key)
+        self._allowed_optional_pras = ALLOWED_OPTIONAL_PARS_FORECAST
 
     def get_forecast_by_city_name(self, city_name: str, country_code: str = None, state_code=None, **kwargs):
         _get_params_dict = {
@@ -15,7 +19,7 @@ class FiveDayForecastClient(Client):
             self._API_URL,
             _get_params_dict
         )
-        response = parse_response(
+        response = parse_text_response(
             request_response,
             parse_format=_get_params_dict.get("mode") or Format.DICT
         )
@@ -30,7 +34,7 @@ class FiveDayForecastClient(Client):
             self._API_URL,
             _get_params_dict
         )
-        response = parse_response(
+        response = parse_text_response(
             request_response,
             parse_format=_get_params_dict.get("mode") or Format.DICT
         )
@@ -45,7 +49,7 @@ class FiveDayForecastClient(Client):
             self._API_URL,
             _get_params_dict
         )
-        response = parse_response(
+        response = parse_text_response(
             request_response,
             parse_format=_get_params_dict.get("mode") or Format.DICT
         )

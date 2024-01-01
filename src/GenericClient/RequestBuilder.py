@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from requests import Request
 from src.GenericClient.constants import APPID_PARAM_NAME, POST_REQ_HEADERS
+from src.GenericClient.exceptions import WrongRequestType
 
 
 class RequestDirector:
@@ -10,18 +11,18 @@ class RequestDirector:
         self._get_and_delete_builder = GetAndDeleteRequestBuilder(api_key)
         self._post_and_put_builder = PostAndPutRequestBuilder(api_key)
 
-    def constructRequest(self, req_type, url, data, headers):
+    def build_request(self, req_type, url, data, headers):
         prepared_request = None
         if req_type == "POST" or req_type == "PUT":
-            prepared_request = self._common_construct(self._post_and_put_builder, req_type, url, data, headers)
+            prepared_request = self._common_request_build(self._post_and_put_builder, req_type, url, data, headers)
         elif req_type == "DELETE" or req_type == "GET":
-            prepared_request = self._common_construct(self._get_and_delete_builder, req_type, url, data, headers)
+            prepared_request = self._common_request_build(self._get_and_delete_builder, req_type, url, data, headers)
         else:
-            raise Exception("Wrong Request")
+            raise WrongRequestType(f"Wrong '{req_type}' request")
 
         return prepared_request
 
-    def _common_construct(self, builder, req_type, url, data, headers):
+    def _common_request_build(self, builder, req_type, url, data, headers):
         builder.build_req_type(req_type)
         builder.build_headers(headers)
         builder.build_url(url)
@@ -50,7 +51,7 @@ class RequestBuilder(ABC):
     def build_url(self, url):
         pass
 
-    def getAndFinishBuild(self):
+    def get_and_finish_build(self):
         prepared_request = self._request.prepare()
         self._request = Request()
         return prepared_request
@@ -64,7 +65,7 @@ class GetAndDeleteRequestBuilder(RequestBuilder):
     def build_data(self, data: dict):
         _data = data.copy()
         _data[APPID_PARAM_NAME] = self._api_key
-        self._request.data = _data
+        self._request.params = _data
 
     def build_url(self, url):
         self._request.url = url

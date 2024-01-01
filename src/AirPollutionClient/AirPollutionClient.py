@@ -1,14 +1,7 @@
-from datetime import datetime
-from enum import IntEnum
-from src.GenericClient.base_client import Client, parse_response
+from src.AirPollutionClient._utils import AirPollutionUrls, process_air_polution_response
+from src.GenericClient.base_client import Client
 from src.GeocodingClient.GeocodingClient import GeocodingApiClient
 from src.util.UnixTime import UnixTime
-
-
-class AirPollutionUrls(IntEnum):
-    current = 0
-    forecast = 1
-    historical = 2
 
 
 class AirPollutionClient(Client):
@@ -36,7 +29,7 @@ class AirPollutionClient(Client):
             self._API_URLS[AirPollutionUrls.current],
             _get_params_dict
         )
-        response = process_response(request_response)
+        response = process_air_polution_response(request_response)
         return response
 
     def forecast_air_pollution(self, city_name: str, country_code=None, state_code=None, **kwargs):
@@ -51,7 +44,7 @@ class AirPollutionClient(Client):
             self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
-        response = process_response(request_response)
+        response = process_air_polution_response(request_response)
         return response
 
     def historical_air_pollution(self, city_name: str, *, start: UnixTime, end: UnixTime, country_code=None, state_code=None, **kwargs):
@@ -68,7 +61,7 @@ class AirPollutionClient(Client):
             self._API_URLS[AirPollutionUrls.forecast],
             _get_params_dict
         )
-        response = process_response(request_response)
+        response = process_air_polution_response(request_response)
         return response
 
     def _get_coordinates(self, city_name: str, country_code=None, state_code=None):
@@ -80,25 +73,7 @@ class AirPollutionClient(Client):
         return coordinates["lat"], coordinates["lon"]
 
 
-def process_response(response):
-    dict_response = parse_response(response)
-    dict_response['timezone'] = 'UTC'
-    dict_response = response_dt_to_date(dict_response)
-    return dict_response
 
 
-def response_dt_to_date(response):
-    for item in response['list']:
-        if timestamp := item.get('dt'):
-            item['dt'] = unix_time_to_date(timestamp)
-    return response
 
 
-def unix_time_to_date(timestamp):
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-
-
-if __name__ == "__main__":
-    API_KEY = "58c7c07e5e5f9dfa918e5847f785e014"
-    client = AirPollutionClient(API_KEY)
-    print(client.current_air_pollution_by_city_name(city_name="Sosnowiec"))

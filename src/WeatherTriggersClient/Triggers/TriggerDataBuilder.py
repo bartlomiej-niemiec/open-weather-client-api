@@ -2,10 +2,7 @@ from abc import ABC, abstractmethod
 from src.WeatherTriggersClient.Triggers import TriggerTimePeriod
 from src.WeatherTriggersClient.Triggers.TriggerArea import BaseTriggerArea
 from src.WeatherTriggersClient.Triggers.TriggerCondition import TriggerConditionCollection
-
-
-class NotImplemented(Exception):
-    pass
+from src.WeatherTriggersClient.Triggers.exception import NotImplemented
 
 
 class TriggerDataBuilder(ABC):

@@ -1,5 +1,6 @@
 from typing import List
-from src.GenericClient.base_client import Client, parse_response
+from src.GenericClient._utils import parse_text_response
+from src.GenericClient.base_client import Client
 from src.WeatherStationClient.Measurment import StationMeasurement
 from src.WeatherStationClient.MeasurmentDataBuiler import StationMeasurementDataBuilder
 
@@ -17,7 +18,7 @@ class WeatherStationMeasurement(Client):
             url=self._API_URL,
             data=convert_measurements_to_request_data(measurements, self.station_id)
         )
-        response = parse_response(post_request_response)
+        response = parse_text_response(post_request_response)
         return response
 
     def get_measurement(self, type, limit, from_dt, to_dt):
@@ -33,7 +34,7 @@ class WeatherStationMeasurement(Client):
             url=self._API_URL,
             data=_get_req_params
         )
-        measurements = parse_response(get_request_response)
+        measurements = parse_text_response(get_request_response)
         return measurements
 
 

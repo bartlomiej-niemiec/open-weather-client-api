@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import List
 
+from src.WeatherTriggersClient.Triggers.exception import NotClosedPolygon
+
 
 @dataclass
 class CoordinatesPoint:
@@ -20,7 +22,6 @@ class BaseTriggerArea:
     def _raise_point_type_error(self):
         TypeError("point parameter should be type of CoordinatesPoint")
 
-@dataclass
 class PointTriggerArea(BaseTriggerArea):
 
     def __init__(self, point: CoordinatesPoint):
@@ -29,7 +30,6 @@ class PointTriggerArea(BaseTriggerArea):
         super().__init__("Point", point)
 
 
-@dataclass
 class MultiPointTriggerArea(BaseTriggerArea):
 
     def __init__(self):
@@ -49,19 +49,18 @@ class MultiPointTriggerArea(BaseTriggerArea):
         self.points.remove(point)
         return self
 
-@dataclass
+
 class PolygonTriggerArea(BaseTriggerArea):
 
     def __init__(self, polygon: List[CoordinatesPoint]):
         if not self._is_polygon_closure_ok(polygon):
-            raise NotClosedPolygon("Provide Close Polygon")
+            raise NotClosedPolygon("Provide Closed Polygon")
         super().__init__(area_type="Polygon", points=polygon)
 
     def _is_polygon_closure_ok(self, polygon):
         return (polygon[0].lat == polygon[-1].lat) and (polygon[0].lon == polygon[-1].lon)
 
 
-@dataclass
 class MultiPolygonTriggerArea(BaseTriggerArea):
 
     def __init__(self):
@@ -75,5 +74,3 @@ class MultiPolygonTriggerArea(BaseTriggerArea):
         return (polygon[0].lat == polygon[-1].lat) and (polygon[0].lon == polygon[-1].lon)
 
 
-class NotClosedPolygon(Exception):
-    pass
