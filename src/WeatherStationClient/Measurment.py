@@ -1,27 +1,15 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
-class IToDict(ABC):
-
-    @abstractmethod
-    def toDict(self) -> dict:
-        pass
-
-
 @dataclass
-class MeasurementCloudsDetails(IToDict):
+class MeasurementCloudsDetails:
     distance: int = None  # m
     condition: str = None  # SKC, NSC, FEW, SCT, BKN, OVC
     cumulus: str = None  # CB, TCU
 
-    def toDict(self):
-        cloud_details_dict = {key: val for key, val in self.__dict__.items() if val}
-        return cloud_details_dict
-
 
 @dataclass
-class MeasurementWeatherDetails(IToDict):
+class MeasurementWeatherDetails:
     precipitation: str = None  # Additional description, METAR
     descriptor: str = None  # Additional description, METAR
     intensity: str = None  # Additional description, METAR
@@ -29,13 +17,9 @@ class MeasurementWeatherDetails(IToDict):
     obscuration: str = None  # Additional description, METAR
     other: str = None  # Additional description, METAR
 
-    def toDict(self):
-        weather_details_dict = {key: val for key, val in self.__dict__.items() if val}
-        return weather_details_dict
-
 
 @dataclass
-class StationMeasurement(IToDict):
+class StationMeasurement:
     dt: str = None  # Unix time
     temperature: float = None  # Celsius
     wind_speed: float = None  # m/s
@@ -56,26 +40,3 @@ class StationMeasurement(IToDict):
     visibility_prefix: str = None  # N, E, S, W
     clouds: MeasurementCloudsDetails = None
     weather: MeasurementWeatherDetails = None
-
-    def toDict(self):
-        station_measurement_dict = {}
-        for key, val in self.__dict__.items():
-            if val:
-                if key == "clouds":
-                    if isinstance(val, list):
-                        cloud_dict_array = []
-                        for cloud in val:
-                            cloud_dict_array.append(cloud.toDict())
-                        station_measurement_dict["clouds"] = cloud_dict_array
-                    else:
-                        station_measurement_dict["clouds"] = [val.toDict()]
-                elif key == "weather":
-                    if isinstance(val, list):
-                        weather_dict_array = []
-                        for weather in val:
-                            weather_dict_array.append(weather.toDict())
-                        station_measurement_dict["weather"] = weather_dict_array
-                    else:
-                        station_measurement_dict["weather"] = [val.toDict()]
-
-        return station_measurement_dict
