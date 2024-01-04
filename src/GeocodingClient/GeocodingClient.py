@@ -1,7 +1,7 @@
 from typing import Any
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
-from src.GeocodingClient._utils import ALLOWED_OPTIONAL_PARS, GeocodingUrls
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
+from src.GeocodingClient.Utils import ALLOWED_OPTIONAL_PARS, GeocodingUrls
 
 class GeocodingApiClient(Client):
     _API_URLS = [

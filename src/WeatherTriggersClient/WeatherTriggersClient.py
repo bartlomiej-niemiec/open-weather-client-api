@@ -1,5 +1,5 @@
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
 from src.WeatherTriggersClient.Triggers.Trigger import Trigger
 from src.WeatherTriggersClient.Triggers.TriggerDataFactory import TriggerDataFactory
 

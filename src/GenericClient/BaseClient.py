@@ -1,5 +1,5 @@
 import requests
-from src.GenericClient._utils import parse_optional_parameters
+from src.GenericClient.Utils import parse_optional_parameters
 
 from src.GenericClient.RequestBuilder import RequestDirector
 

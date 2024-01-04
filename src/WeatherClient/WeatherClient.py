@@ -1,6 +1,6 @@
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
-from _constants import ALLOWED_OPTIONAL_PARS_WEATHER
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
+from Constants import ALLOWED_OPTIONAL_PARS_WEATHER
 
 class WeatherClient(Client):
     _API_URL = "https://api.openweathermap.org/data/2.5/weather"

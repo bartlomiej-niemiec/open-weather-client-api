@@ -1,8 +1,8 @@
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
-from _constants import DELETE_REQ_SUCCESS_CODE
-from src.WeatherStationClient.StationParameters import StationParameters, RegisterStationParameters
-from src.WeatherStationClient._utils import WeatherStationManagementApiUrls
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
+from src.WeatherStationClient.Constants import DELETE_REQ_SUCCESS_CODE
+from src.WeatherStationClient.WeatherStationManagement.StationParameters import StationParameters, RegisterStationParameters
+from src.WeatherStationClient.WeatherStationManagement.Utils import WeatherStationManagementApiUrls
 
 
 class WeatherStationManagementClient(Client):

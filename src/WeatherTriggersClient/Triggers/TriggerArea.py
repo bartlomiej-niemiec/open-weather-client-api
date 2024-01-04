@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
-from src.WeatherTriggersClient.Triggers.exception import NotClosedPolygon
+from src.WeatherTriggersClient.Triggers.Exceptions import NotClosedPolygon
 
 
 @dataclass

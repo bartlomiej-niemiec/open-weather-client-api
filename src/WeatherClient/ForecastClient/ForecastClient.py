@@ -1,6 +1,6 @@
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
-from src.WeatherClient._constants import Format, ALLOWED_OPTIONAL_PARS_FORECAST
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
+from src.WeatherClient.Constants import Format, ALLOWED_OPTIONAL_PARS_FORECAST
 
 
 class FiveDayForecastClient(Client):

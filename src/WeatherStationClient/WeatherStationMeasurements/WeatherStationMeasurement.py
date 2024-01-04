@@ -1,8 +1,8 @@
 from typing import List
-from src.GenericClient._utils import parse_text_response
-from src.GenericClient.base_client import Client
-from src.WeatherStationClient.Measurment import StationMeasurement
-from src.WeatherStationClient.MeasurmentDataBuiler import StationMeasurementDataBuilder
+from src.GenericClient.Utils import parse_text_response
+from src.GenericClient.BaseClient import Client
+from src.WeatherStationClient.WeatherStationMeasurements.Measurment import StationMeasurement
+from src.WeatherStationClient.WeatherStationMeasurements.MeasurmentDataBuiler import StationMeasurementDataBuilder
 
 
 class WeatherStationMeasurement(Client):

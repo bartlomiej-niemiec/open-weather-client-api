@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import IntEnum
 
-from src.GenericClient._utils import parse_text_response
+from src.GenericClient.Utils import parse_text_response
 
 
 def convert_timestamp_date_string(unix_timestamp):

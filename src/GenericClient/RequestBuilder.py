@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from requests import Request
-from src.GenericClient.constants import APPID_PARAM_NAME, POST_REQ_HEADERS
-from src.GenericClient.exceptions import WrongRequestType
+from src.GenericClient.Constants import APPID_PARAM_NAME, POST_REQ_HEADERS
+from src.GenericClient.Exceptions import WrongRequestType
 
 
 class RequestDirector:

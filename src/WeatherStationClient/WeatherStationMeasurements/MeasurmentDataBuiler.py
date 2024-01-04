@@ -1,4 +1,5 @@
-from src.WeatherStationClient.MeasurmentToDictConverter import MeasurmentToDictConverter
+from src.WeatherStationClient.WeatherStationMeasurements.MeasurmentToDictConverter import MeasurmentToDictConverter
+
 
 class StationMeasurementDataBuilder:
 

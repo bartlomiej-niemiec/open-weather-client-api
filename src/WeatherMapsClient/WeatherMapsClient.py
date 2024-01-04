@@ -1,6 +1,6 @@
-from src.GenericClient.base_client import Client
-from src.WeatherMapsClient.constants import Layers
-from src.WeatherMapsClient.BaseMap import BaseMap
+from src.GenericClient.BaseClient import Client
+from src.WeatherMapsClient.Maps.LayersConstants import Layers
+from src.WeatherMapsClient.Maps.BaseMap import BaseMap
 from WeatherMap import BytesMapImage
 
 

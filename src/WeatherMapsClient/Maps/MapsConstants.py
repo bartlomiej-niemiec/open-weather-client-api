@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import IntEnum
 
 
@@ -41,10 +40,3 @@ class MapZoom(IntEnum):
     Metropolitan = 9
 
 
-@dataclass(frozen=True)
-class Layers:
-    clouds: str = "clouds_new"
-    precipitation: str = "precipitation_new"
-    sea_level_pressure: str = "pressure_new"
-    wind_speed: str = "wind_new"
-    temperature: str = "temp_new"
