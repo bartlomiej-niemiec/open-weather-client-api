@@ -1,11 +1,11 @@
 from typing import List
-from src.GenericClient.Utils import parse_text_response
-from src.GenericClient.BaseClient import Client
-from src.WeatherStationClient.WeatherStationMeasurements.Measurment import StationMeasurement
-from src.WeatherStationClient.WeatherStationMeasurements.MeasurmentDataBuiler import StationMeasurementDataBuilder
+from src.utils.GenericClient.Utils import parse_text_response_to_format
+from src.utils.GenericClient.BaseClient import Client
+from src.WeatherStationClient.WeatherStationMeasurementsClient.Measurement.Measurment import StationMeasurement
+from src.WeatherStationClient.WeatherStationMeasurementsClient.Measurement.MeasurmentDataBuiler import StationMeasurementDataBuilder
 
 
-class WeatherStationMeasurement(Client):
+class WeatherStationMeasurementClient(Client):
     _API_URL = "http://api.openweathermap.org/data/3.0/measurements"
 
     def __init__(self, station_id, api_key):
@@ -18,7 +18,7 @@ class WeatherStationMeasurement(Client):
             url=self._API_URL,
             data=convert_measurements_to_request_data(measurements, self.station_id)
         )
-        response = parse_text_response(post_request_response)
+        response = parse_text_response_to_format(post_request_response)
         return response
 
     def get_measurement(self, type, limit, from_dt, to_dt):
@@ -34,7 +34,7 @@ class WeatherStationMeasurement(Client):
             url=self._API_URL,
             data=_get_req_params
         )
-        measurements = parse_text_response(get_request_response)
+        measurements = parse_text_response_to_format(get_request_response)
         return measurements
 
 

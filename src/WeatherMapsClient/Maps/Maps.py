@@ -1,9 +1,9 @@
 from src.WeatherMapsClient.Maps.MapsConstants import MapZoom, ZoomCoordinatesLowerBound, ZoomCoordinatesUpperBound
 from src.WeatherMapsClient.Maps.MapBoundsChecker import MapBoundsChecker
-from src.WeatherMapsClient.Maps.BaseMapWithBoundChecker import BaseMapWithBoundsChecking
+from src.WeatherMapsClient.Maps.MapCoordinatesWithBoundChecker import MapCoordinatesWithBoundsChecking
 
 
-class WorldwideSizeMap(BaseMapWithBoundsChecking):
+class WorldwideSizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -17,7 +17,7 @@ class WorldwideSizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class OneQuarterOfTheWorldSizeMap(BaseMapWithBoundsChecking):
+class OneQuarterOfTheWorldSizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -31,7 +31,7 @@ class OneQuarterOfTheWorldSizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class SubcontinentalSizeMap(BaseMapWithBoundsChecking):
+class SubcontinentalSizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -45,7 +45,7 @@ class SubcontinentalSizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class LargestCountryeMap(BaseMapWithBoundsChecking):
+class LargestCountrySizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -59,7 +59,7 @@ class LargestCountryeMap(BaseMapWithBoundsChecking):
         )
 
 
-class LargestAsiaCountrySizeMap(BaseMapWithBoundsChecking):
+class LargestAsiaCountrySizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -73,7 +73,7 @@ class LargestAsiaCountrySizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class LargeAfricanCountrySizeMap(BaseMapWithBoundsChecking):
+class LargeAfricanCountrySizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -87,7 +87,7 @@ class LargeAfricanCountrySizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class LargeEuropeanCountrySizeMap(BaseMapWithBoundsChecking):
+class LargeEuropeanCountrySizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -101,7 +101,7 @@ class LargeEuropeanCountrySizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class SmallCountrySizeMap(BaseMapWithBoundsChecking):
+class SmallCountrySizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -115,7 +115,7 @@ class SmallCountrySizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class LargeMetropolitanSizeMap(BaseMapWithBoundsChecking):
+class LargeMetropolitanSizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(
@@ -129,7 +129,7 @@ class LargeMetropolitanSizeMap(BaseMapWithBoundsChecking):
         )
 
 
-class MetropolitanSizeMap(BaseMapWithBoundsChecking):
+class MetropolitanSizeMap(MapCoordinatesWithBoundsChecking):
 
     def __init__(self, x, y):
         super().__init__(

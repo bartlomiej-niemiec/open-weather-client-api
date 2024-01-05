@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import IntEnum
 
-from src.GenericClient.Utils import parse_text_response
+from src.utils.GenericClient.Utils import parse_text_response_to_format
 
 
 def convert_timestamp_date_string(unix_timestamp):
@@ -40,7 +40,7 @@ def process_air_polution_response(request_response):
     Returns:
         dict: air polution data with replaced 'dt' field.
     """
-    dict_response = parse_text_response(request_response)
+    dict_response = parse_text_response_to_format(request_response)
     dict_response['timezone'] = 'UTC'
     dict_response = replace_unix_dt_with_date_string(dict_response)
     return dict_response

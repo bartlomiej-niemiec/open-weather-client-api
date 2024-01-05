@@ -1,5 +1,5 @@
-from src.GenericClient.Utils import parse_text_response
-from src.GenericClient.BaseClient import Client
+from src.utils.GenericClient.Utils import parse_text_response_to_format
+from src.utils.GenericClient.BaseClient import Client
 from src.WeatherTriggersClient.Triggers.Trigger import Trigger
 from src.WeatherTriggersClient.Triggers.TriggerDataFactory import TriggerDataFactory
 
@@ -13,7 +13,7 @@ class WeatherTriggersClient(Client):
             url=self._API_URL,
             data=TriggerDataFactory.create_trigger_data(trigger_parameters)
         )
-        response = parse_text_response(post_request_response)
+        response = parse_text_response_to_format(post_request_response)
         return response
 
     def get_alerts_by_trigger(self, trigger_id: str):
@@ -23,7 +23,7 @@ class WeatherTriggersClient(Client):
             data={}
 
         )
-        response = parse_text_response(get_request_response)
+        response = parse_text_response_to_format(get_request_response)
         return response
 
     def get_all_trigers(self):
@@ -33,7 +33,7 @@ class WeatherTriggersClient(Client):
             data={}
 
         )
-        response = parse_text_response(get_request_response)
+        response = parse_text_response_to_format(get_request_response)
         return response
 
     def update_trigger(self, trigger_parameters: Trigger, trigger_id: str):
@@ -42,7 +42,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id),
             data=TriggerDataFactory.create_trigger_data(trigger_parameters)
         )
-        response = parse_text_response(post_request_response)
+        response = parse_text_response_to_format(post_request_response)
         return response
 
     def delete_trigger(self, trigger_id: str):
@@ -51,7 +51,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id),
             data={}
         )
-        response = parse_text_response(delete_request_response)
+        response = parse_text_response_to_format(delete_request_response)
         return response
 
     def get_history_alerts(self, trigger_id: str, alert_id: str):
@@ -60,7 +60,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id, "history", alert_id),
             data={}
         )
-        response = parse_text_response(get_request_response)
+        response = parse_text_response_to_format(get_request_response)
         return response
 
     def get_all_history_alerts(self, trigger_id: str):
@@ -69,7 +69,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id, "history"),
             data={}
         )
-        response = parse_text_response(get_request_response)
+        response = parse_text_response_to_format(get_request_response)
         return response
 
     def delete_history_alert(self, trigger_id: str, alert_id: str):
@@ -78,7 +78,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id, "history", alert_id),
             data={}
         )
-        response = parse_text_response(delete_request_response)
+        response = parse_text_response_to_format(delete_request_response)
         return response
 
     def delete_all_history_alert(self, trigger_id: str):
@@ -87,7 +87,7 @@ class WeatherTriggersClient(Client):
             url=self._get_api_url_with_extra_arguments(trigger_id, "history"),
             data={}
         )
-        response = parse_text_response(delete_request_response)
+        response = parse_text_response_to_format(delete_request_response)
         return response
 
     def _get_api_url_with_extra_arguments(self, *args):

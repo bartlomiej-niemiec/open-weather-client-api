@@ -6,3 +6,4 @@ class MapBoundsChecker:
 
     def is_value_in_bounds(self, value):
         return self.lower_bound <= value <= self.upper_bound
+

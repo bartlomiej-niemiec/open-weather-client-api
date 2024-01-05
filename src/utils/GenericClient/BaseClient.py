@@ -1,7 +1,7 @@
 import requests
-from src.GenericClient.Utils import parse_optional_parameters
+from src.utils.GenericClient.Utils import verify_optional_parameters
 
-from src.GenericClient.RequestBuilder import RequestDirector
+from src.utils.GenericClient.RequestBuilder.RequestBuildingDirector import RequestDirector
 
 
 class Client:
@@ -15,7 +15,7 @@ class Client:
         """
         self.api_key = api_key
         self._request_director = RequestDirector(api_key)
-        self._allowed_optional_pras = []
+        self._allowed_optional_pars = []
 
     def _send_request(self, req_type, url, data, headers=None, exception=None):
         """send http request with passed parameters.
@@ -54,8 +54,8 @@ class Client:
             request_params dict: current request parameters
             kwargs dict: kwargs
         """
-        optional_args = parse_optional_parameters(
-            self._allowed_optional_pras,
+        verify_optional_parameters(
+            self._allowed_optional_pars,
             kwargs
         )
-        request_params.update(optional_args)
+        request_params.update(kwargs)

@@ -1,8 +1,8 @@
-from src.GenericClient.Utils import parse_text_response
-from src.GenericClient.BaseClient import Client
+from src.utils.GenericClient.Utils import parse_text_response_to_format
+from src.utils.GenericClient.BaseClient import Client
 from src.WeatherStationClient.Constants import DELETE_REQ_SUCCESS_CODE
-from src.WeatherStationClient.WeatherStationManagement.StationParameters import StationParameters, RegisterStationParameters
-from src.WeatherStationClient.WeatherStationManagement.Utils import WeatherStationManagementApiUrls
+from src.WeatherStationClient.WeatherStationManagementClient.StationParameters import StationParameters, RegisterStationParameters
+from src.WeatherStationClient.WeatherStationManagementClient.Utils import WeatherStationManagementApiUrls
 
 
 class WeatherStationManagementClient(Client):
@@ -17,7 +17,7 @@ class WeatherStationManagementClient(Client):
             url=self._API_URLS[WeatherStationManagementApiUrls.register_or_get_all],
             data=station.__dict__
         )
-        station_parameters = parse_text_response(response)
+        station_parameters = parse_text_response_to_format(response)
         return StationParameters(station_parameters)
 
     def delete_station(self, station_id):
@@ -38,7 +38,7 @@ class WeatherStationManagementClient(Client):
             url=self._API_URLS[WeatherStationManagementApiUrls.register_or_get_all],
             data=get_request_data
         )
-        station_parameters_list = parse_text_response(response)
+        station_parameters_list = parse_text_response_to_format(response)
         station_object_list = [StationParameters(station_parameters) for station_parameters in
                                station_parameters_list]
         return station_object_list
@@ -52,7 +52,7 @@ class WeatherStationManagementClient(Client):
             url=url_with_station_id,
             data={}
         )
-        station_parameters = parse_text_response(response)
+        station_parameters = parse_text_response_to_format(response)
         return StationParameters(station_parameters)
 
     def update_station_info(self, station_id, station_params: RegisterStationParameters):
@@ -64,5 +64,5 @@ class WeatherStationManagementClient(Client):
             url=url_with_station_id,
             data=station_params.__dict__
         )
-        station_parameters = parse_text_response(response)
+        station_parameters = parse_text_response_to_format(response)
         return StationParameters(station_parameters)

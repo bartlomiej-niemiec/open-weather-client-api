@@ -1,25 +1,10 @@
-from abc import ABC, abstractmethod
 from io import BytesIO
 from PIL import Image
 from pathlib import Path
+from src.WeatherMapsClient.MapImage.MapImage import MapImageInterface
 
 
-class ImageSaveInterface(ABC):
-
-    @abstractmethod
-    def save_to_file(self, dir: Path, filename):
-        pass
-
-    @abstractmethod
-    def get_save_format(self):
-        pass
-
-    @abstractmethod
-    def get_image_data(self):
-        pass
-
-
-class BytesMapImage(ImageSaveInterface):
+class BytesMapImage(MapImageInterface):
 
     def __init__(self, image_bytes):
         if isinstance(image_bytes, bytes):

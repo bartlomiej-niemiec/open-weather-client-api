@@ -1,4 +1,4 @@
-class BaseMap:
+class MapCoordinates:
 
     def __init__(self, x: int, y: int, z: int):
         self._area = z

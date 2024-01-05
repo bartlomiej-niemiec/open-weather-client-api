@@ -1,4 +1,4 @@
-from src.WeatherStationClient.WeatherStationMeasurements.Measurment import MeasurementCloudsDetails, \
+from src.WeatherStationClient.WeatherStationMeasurementsClient.Measurement.Measurment import MeasurementCloudsDetails, \
     MeasurementWeatherDetails, StationMeasurement
 
 

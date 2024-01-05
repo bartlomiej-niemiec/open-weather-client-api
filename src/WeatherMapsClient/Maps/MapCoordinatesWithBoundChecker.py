@@ -1,9 +1,9 @@
-from src.WeatherMapsClient.Maps.BaseMap import BaseMap
-from src.WeatherMapsClient.Exceptions import raise_out_of_range_exception
+from src.WeatherMapsClient.Maps.MapCoordinates import MapCoordinates
+from src.WeatherMapsClient.Maps.Exceptions import raise_out_of_range_exception
 from src.WeatherMapsClient.Maps.MapBoundsChecker import MapBoundsChecker
 
 
-class BaseMapWithBoundsChecking(BaseMap):
+class MapCoordinatesWithBoundsChecking(MapCoordinates):
 
     def __init__(self, x, y, z, bounds_checker: MapBoundsChecker):
         super().__init__(x, y, z)

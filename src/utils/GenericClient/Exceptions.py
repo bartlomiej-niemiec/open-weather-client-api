@@ -17,5 +17,6 @@ class DeleteRequestError(Exception):
 class UnknownOptionalParameter(Exception):
     pass
 
+
 class WrongRequestType(Exception):
     pass

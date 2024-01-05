@@ -1,13 +1,11 @@
 from src.utils.GenericClient.Utils import parse_text_response_to_format
 from src.utils.GenericClient.BaseClient import Client
-from src.WeatherClient.Constants import Format, ALLOWED_OPTIONAL_PARS_FORECAST
+from Constants import ALLOWED_OPTIONAL_PARS_WEATHER
 
 
-class FiveDayForecastClient(Client):
-
-    """Wrapper for OpenWeather 5 day weather forecast api."""
-
-    _API_URL = "https://api.openweathermap.org/data/2.5/forecast"
+class CurrentWeatherClient(Client):
+    """Wrapper for OpenWeather Current Weather API."""
+    _API_URL = "https://api.openweathermap.org/data/2.5/weather"
 
     def __init__(self, api_key: str):
         """Initialization of Current Weather API client.
@@ -15,19 +13,18 @@ class FiveDayForecastClient(Client):
         :param api_key: OpenWeather API Key.
         """
         super().__init__(api_key)
-        self._allowed_optional_pras = ALLOWED_OPTIONAL_PARS_FORECAST
+        self._allowed_optional_pars = ALLOWED_OPTIONAL_PARS_WEATHER
 
-    def get_forecast_by_city_name(self, city_name: str, country_code: str = None, state_code=None, **kwargs):
-        """get forecast by city name.
+    def current_weather_by_location(self, city_name, state_code=None, country_code=None, **kwargs):
+        """get current weather by location.
 
         :param city_name: name of the city
-        :param country_code: country code etc. 'UK'. Defaults to None.
-        :param state_code: state code - only for US. Defaults to None.
+        :param state_code: country code etc. 'UK'. Defaults to None.
+        :param country_code: state code - only for US. Defaults to None.
         :param kwargs: optional parameters listed below
             units: unit of measurement - Kelvin, Fahrenheit.
             lang: language of output.
             mode: response format.
-            cnt: number of timestamps
         :return: api response.
         """
         _get_params_dict = {
@@ -35,18 +32,37 @@ class FiveDayForecastClient(Client):
         }
         self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
         request_response = self._send_request(
-            "GET",
+            'GET',
             self._API_URL,
             _get_params_dict
         )
-        response = parse_text_response_to_format(
-            request_response,
-            parse_format=_get_params_dict.get("mode") or Format.DICT
-        )
+        response = parse_text_response_to_format(request_response)
         return response
 
-    def get_forecast_by_zip_code(self, zip_code: str, country_code: str, **kwargs):
-        """get forecast by zip code.
+    def current_weather_by_city_id(self, city_id, **kwargs):
+        """get current weather by city id.
+
+        :param city_id: city id - download list of city id on openweathermap.org
+        :param kwargs: optional parameters listed below
+            units: unit of measurement - Kelvin, Fahrenheit.
+            lang: language of output.
+            mode: response format.
+        :return: api response.
+        """
+        _get_params_dict = {
+            "id": city_id
+        }
+        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
+        request_response = self._send_request(
+            'GET',
+            self._API_URL,
+            _get_params_dict
+        )
+        response = parse_text_response_to_format(request_response)
+        return response
+
+    def current_weather_by_zip_code(self, zip_code, country_code, **kwargs):
+        """get current weather by zip code.
 
         :param zip_code: zip/post code referred to ISO 3166.
         :param country_code: country code etc. 'UK'.
@@ -54,7 +70,6 @@ class FiveDayForecastClient(Client):
             units: unit of measurement - Kelvin, Fahrenheit.
             lang: language of output.
             mode: response format.
-            cnt: number of timestamps
         :return: api response.
         """
         _get_params_dict = {
@@ -62,39 +77,9 @@ class FiveDayForecastClient(Client):
         }
         self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
         request_response = self._send_request(
-            "GET",
+            'GET',
             self._API_URL,
             _get_params_dict
         )
-        response = parse_text_response_to_format(
-            request_response,
-            parse_format=_get_params_dict.get("mode") or Format.DICT
-        )
+        response = parse_text_response_to_format(request_response)
         return response
-
-    def get_forecast_by_city_id(self, city_id, **kwargs):
-        """get forecast by city id.
-
-        :param city_id: city id - download list of city id on openweathermap.org
-        :param kwargs: optional parameters listed below
-            units: unit of measurement - Kelvin, Fahrenheit.
-            lang: language of output.
-            mode: response format.
-            cnt: number of timestamps
-        :return: api response.
-        """
-        _get_params_dict = {
-            "id": city_id,
-        }
-        self._verify_and_add_optional_params_to_request(_get_params_dict, kwargs)
-        request_response = self._send_request(
-            "GET",
-            self._API_URL,
-            _get_params_dict
-        )
-        response = parse_text_response_to_format(
-            request_response,
-            parse_format=_get_params_dict.get("mode") or Format.DICT
-        )
-        return response
-

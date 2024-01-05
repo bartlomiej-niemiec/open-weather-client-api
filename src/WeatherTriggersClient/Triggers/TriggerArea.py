@@ -1,3 +1,4 @@
+from abc import ABC
 from dataclasses import dataclass
 from typing import List
 
@@ -10,7 +11,7 @@ class CoordinatesPoint:
     lon: float
 
 
-class BaseTriggerArea:
+class BaseTriggerArea(ABC):
 
     def __init__(self, area_type, points):
         self.area_type = area_type
@@ -21,6 +22,7 @@ class BaseTriggerArea:
 
     def _raise_point_type_error(self):
         TypeError("point parameter should be type of CoordinatesPoint")
+
 
 class PointTriggerArea(BaseTriggerArea):
 
@@ -72,5 +74,3 @@ class MultiPolygonTriggerArea(BaseTriggerArea):
 
     def _is_polygon_closure_ok(self, polygon):
         return (polygon[0].lat == polygon[-1].lat) and (polygon[0].lon == polygon[-1].lon)
-
-

@@ -4,7 +4,8 @@ import time
 
 
 @dataclass
-class UnixTime:
+class DateToUnixTime:
+    """Display date as a unix time format."""
     year: int
     month: int
     day: int

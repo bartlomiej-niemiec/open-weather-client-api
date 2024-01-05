@@ -1,5 +1,7 @@
-ALLOWED_OPTIONAL_PARS_WEATHER = ['unit', 'lang', 'format']
-ALLOWED_OPTIONAL_PARS_FORECAST = ['units', 'lang', 'mode', 'limit', 'cnt']
+ALLOWED_OPTIONAL_PARS_WEATHER = ['units', 'lang', 'mode']
+ALLOWED_OPTIONAL_PARS_FORECAST = ['units', 'lang', 'mode', 'cnt']
+
+
 class Unit:
     KELVIN = None
     FAHRENHEIT = "imperial"

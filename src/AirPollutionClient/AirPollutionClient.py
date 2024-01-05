@@ -1,7 +1,7 @@
 from src.AirPollutionClient.Utils import AirPollutionUrls, process_air_polution_response
-from src.GenericClient.BaseClient import Client
+from src.utils.GenericClient.BaseClient import Client
 from src.GeocodingClient.GeocodingClient import GeocodingApiClient
-from src.util.UnixTime import UnixTime
+from src.utils.DateToUnixTime import DateToUnixTime
 
 
 class AirPollutionClient(Client):
@@ -23,7 +23,7 @@ class AirPollutionClient(Client):
         self._cache = {}
         self._geocoding_client = GeocodingApiClient(api_key)
 
-    def current_air_pollution_by_city_name(self, city_name: str, country_code=None, state_code=None, **kwargs):
+    def current_air_pollution_by_location(self, city_name: str, country_code=None, state_code=None, **kwargs):
         """Get current air pollution.
 
         Args:
@@ -50,7 +50,7 @@ class AirPollutionClient(Client):
         return response
 
     def forecast_air_pollution(self, city_name: str, country_code=None, state_code=None, **kwargs):
-        """get forecast air pollution.
+        """Get forecast air pollution.
 
         Args:
             city_name (str): name of the city
@@ -74,13 +74,13 @@ class AirPollutionClient(Client):
         response = process_air_polution_response(request_response)
         return response
 
-    def historical_air_pollution(self, city_name: str, *, start: UnixTime, end: UnixTime, country_code=None, state_code=None, **kwargs):
-        """_summary_
+    def historical_air_pollution(self, city_name: str, *, start: DateToUnixTime, end: DateToUnixTime, country_code=None, state_code=None, **kwargs):
+        """Get historical info about air pollution.
 
         Args:
             city_name (str): name of the city
-            start (UnixTime): start timestamp range
-            end (UnixTime): end timestamp range
+            start (DateToUnixTime): start timestamp range
+            end (DateToUnixTime): end timestamp range
             country_code (str, optional): country code etc. 'UK'. Defaults to None.
             state_code (str, optional): state code - only for US. Defaults to None.
 
@@ -104,7 +104,7 @@ class AirPollutionClient(Client):
         return response
 
     def _get_coordinates(self, city_name: str, country_code=None, state_code=None):
-        """get latitude and longtitude of desired localization.
+        """Get latitude and longitude of desired localization.
 
         Args:
             city_name (str): name of the city
@@ -112,7 +112,7 @@ class AirPollutionClient(Client):
             state_code (str, optional): state code - only for US. Defaults to None.
 
         Returns:
-            tuple: lattitude and longtitude
+            tuple: latitude and longitude
         """
         SINGLE_LOCATION = 0
         if not (coordinates := self._cache.get((city_name, country_code, state_code))):

@@ -1,9 +1,9 @@
 from src.WeatherMapsClient.Maps.MapsConstants import MapZoom, ZoomCoordinatesLowerBound, ZoomCoordinatesUpperBound
 import src.WeatherMapsClient.Maps.Maps as MapArea
-from src.WeatherMapsClient.Exceptions import UnsupportedZoomLevel
+from src.WeatherMapsClient.Maps.Exceptions import UnsupportedZoomLevel
 
 
-class MapFactory:
+class MapCoordinatesFactory:
     LOWER_ZOOM_LEVEL = 0
     GREATEST_ZOOM_LEVEL = 9
 
@@ -20,7 +20,7 @@ class MapFactory:
             return MapArea.SubcontinentalSizeMap(x=middle_point, y=middle_point)
         elif map_area == MapZoom.LargestCountry:
             middle_point = (ZoomCoordinatesLowerBound.LargestCountry + ZoomCoordinatesUpperBound.LargestCountry) // 2
-            return MapArea.LargestCountryeMap(x=middle_point, y=middle_point)
+            return MapArea.LargestCountrySizeMap(x=middle_point, y=middle_point)
         elif map_area == MapZoom.LargestAsiaCountry:
             middle_point = (ZoomCoordinatesLowerBound.LargestAsiaCountry + ZoomCoordinatesUpperBound.LargestAsiaCountry) // 2
             return MapArea.LargestAsiaCountrySizeMap(x=middle_point, y=middle_point)
@@ -41,5 +41,5 @@ class MapFactory:
             return MapArea.MetropolitanSizeMap(x=middle_point, y=middle_point)
         else:
             raise UnsupportedZoomLevel(f"Given zoom level is not possible.",
-                                       f"Zoom level should be in range {MapFactory.LOWER_ZOOM_LEVEL}"
-                                       f"to {MapFactory.GREATEST_ZOOM_LEVEL}")
+                                       f"Zoom level should be in range {MapCoordinatesFactory.LOWER_ZOOM_LEVEL}"
+                                       f"to {MapCoordinatesFactory.GREATEST_ZOOM_LEVEL}")

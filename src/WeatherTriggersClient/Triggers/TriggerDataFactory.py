@@ -1,9 +1,9 @@
 from src.WeatherTriggersClient.Triggers.TriggerArea import PointTriggerArea, MultiPointTriggerArea,\
     PolygonTriggerArea, MultiPolygonTriggerArea
-from src.WeatherTriggersClient.Triggers.TriggerDataBuilder import PointTriggerBuilder, MultiPointTriggerBuilder,\
+from src.WeatherTriggersClient.Triggers.Builders.TriggerBuildersWithArea import PointTriggerBuilder, MultiPointTriggerBuilder, \
     PolygonTriggerBuilder, MultiPolygonTriggerBuilder
 from src.WeatherTriggersClient.Triggers.Trigger import Trigger
-from src.WeatherTriggersClient.Triggers.TriggerDataBuilder import TriggerDataBuilder
+from src.WeatherTriggersClient.Triggers.Builders.TriggerDataBuilder import TriggerDataBuilder
 
 
 class TriggerDataFactory:
