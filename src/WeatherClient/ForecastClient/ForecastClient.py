@@ -1,11 +1,11 @@
-from src.utils.GenericClient.Utils import parse_text_response_to_format
-from src.utils.GenericClient.BaseClient import Client
+from src.Utils.GenericClient.Utils import parse_text_response_to_format
+from src.Utils.GenericClient.BaseClient import Client
 from src.WeatherClient.Constants import Format, ALLOWED_OPTIONAL_PARS_FORECAST
 
 
 class FiveDayForecastClient(Client):
 
-    """Wrapper for OpenWeather 5 day weather forecast api."""
+    """Wrapper for OpenWeather 5-day weather forecast api."""
 
     _API_URL = "https://api.openweathermap.org/data/2.5/forecast"
 

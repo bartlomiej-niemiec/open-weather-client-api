@@ -1,5 +1,5 @@
-from src.utils.GenericClient.Constants import APPID_PARAM_NAME, POST_REQ_HEADERS
-from src.utils.GenericClient.RequestBuilder.RequestBuilder import RequestBuilder
+from src.Utils.GenericClient.Constants import APPID_PARAM_NAME, POST_REQ_HEADERS
+from src.Utils.GenericClient.RequestBuilder.RequestBuilder import RequestBuilder
 
 
 class GetAndDeleteRequestBuilder(RequestBuilder):

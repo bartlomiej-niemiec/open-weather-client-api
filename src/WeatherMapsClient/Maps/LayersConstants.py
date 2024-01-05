@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Layers:
+    """Map Layers."""
     clouds: str = "clouds_new"
     precipitation: str = "precipitation_new"
     sea_level_pressure: str = "pressure_new"

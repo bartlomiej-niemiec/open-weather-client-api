@@ -1,7 +1,7 @@
 from src.AirPollutionClient.Utils import AirPollutionUrls, process_air_polution_response
-from src.utils.GenericClient.BaseClient import Client
+from src.Utils.GenericClient.BaseClient import Client
 from src.GeocodingClient.GeocodingClient import GeocodingApiClient
-from src.utils.DateToUnixTime import DateToUnixTime
+from src.Utils.DateToUnixTime import DateToUnixTime
 
 
 class AirPollutionClient(Client):

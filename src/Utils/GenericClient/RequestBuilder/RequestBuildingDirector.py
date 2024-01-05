@@ -1,5 +1,5 @@
-from src.utils.GenericClient.Exceptions import WrongRequestType
-from src.utils.GenericClient.RequestBuilder.ConcreteBuilders import GetAndDeleteRequestBuilder, PostAndPutRequestBuilder
+from src.Utils.GenericClient.Exceptions import WrongRequestType
+from src.Utils.GenericClient.RequestBuilder.ConcreteBuilders import GetAndDeleteRequestBuilder, PostAndPutRequestBuilder
 
 
 class RequestDirector:

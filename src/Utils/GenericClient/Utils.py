@@ -1,4 +1,4 @@
-from src.utils.GenericClient.Exceptions import UnknownOptionalParameter
+from src.Utils.GenericClient.Exceptions import UnknownOptionalParameter
 from src.WeatherClient.Constants import Format
 import json
 

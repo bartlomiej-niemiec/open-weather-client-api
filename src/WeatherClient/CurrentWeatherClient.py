@@ -1,5 +1,5 @@
-from src.utils.GenericClient.Utils import parse_text_response_to_format
-from src.utils.GenericClient.BaseClient import Client
+from src.Utils.GenericClient.Utils import parse_text_response_to_format
+from src.Utils.GenericClient.BaseClient import Client
 from Constants import ALLOWED_OPTIONAL_PARS_WEATHER
 
 

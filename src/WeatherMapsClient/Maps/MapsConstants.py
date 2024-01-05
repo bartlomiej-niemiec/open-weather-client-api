@@ -1,7 +1,7 @@
 from enum import IntEnum
 
 
-class ZoomCoordinatesLowerBound:
+class XYCoordinatesLowerBound:
     Worldwide = 0
     OneQuarterOfTheWorld = 0
     Subcontinental = 0
@@ -14,7 +14,7 @@ class ZoomCoordinatesLowerBound:
     Metropolitan = 0
 
 
-class ZoomCoordinatesUpperBound:
+class XYCoordinatesUpperBound:
     Worldwide = 1
     OneQuarterOfTheWorld = 1
     Subcontinental = 3

@@ -1,6 +1,12 @@
 class MapCoordinates:
-
+    """Data structure holding map coordinates (x,y) and zoom level (z)"""
     def __init__(self, x: int, y: int, z: int):
+        """Initialize object.
+
+        :param x: value of x coordinate.
+        :param y: value of y coordinate.
+        :param z: value of z/zoom coordinate.
+        """
         self._area = z
         self._x = x
         self._y = y

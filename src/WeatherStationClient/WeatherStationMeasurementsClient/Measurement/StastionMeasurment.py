@@ -2,14 +2,16 @@ from dataclasses import dataclass
 
 
 @dataclass
-class MeasurementCloudsDetails:
+class StationMeasurementCloudsDetails:
+    """Cloud data of the measurement."""
     distance: int = None  # m
     condition: str = None  # SKC, NSC, FEW, SCT, BKN, OVC
     cumulus: str = None  # CB, TCU
 
 
 @dataclass
-class MeasurementWeatherDetails:
+class StationMeasurementWeatherDetails:
+    """Weather details data of the measurement."""
     precipitation: str = None  # Additional description, METAR
     descriptor: str = None  # Additional description, METAR
     intensity: str = None  # Additional description, METAR
@@ -20,7 +22,8 @@ class MeasurementWeatherDetails:
 
 @dataclass
 class StationMeasurement:
-    dt: str = None  # Unix time
+    """Station measurement data."""
+    dt: str = None  # Unix time - time of the measurement.
     temperature: float = None  # Celsius
     wind_speed: float = None  # m/s
     wind_gust: float = None  # m/s
@@ -38,5 +41,5 @@ class StationMeasurement:
     heat_index: float = None  # Celsius
     visibility_distance: float = None  # km
     visibility_prefix: str = None  # N, E, S, W
-    clouds: MeasurementCloudsDetails = None
-    weather: MeasurementWeatherDetails = None
+    clouds: StationMeasurementCloudsDetails = None
+    weather: StationMeasurementWeatherDetails = None

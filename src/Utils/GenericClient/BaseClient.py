@@ -1,7 +1,7 @@
 import requests
-from src.utils.GenericClient.Utils import verify_optional_parameters
+from src.Utils.GenericClient.Utils import verify_optional_parameters
 
-from src.utils.GenericClient.RequestBuilder.RequestBuildingDirector import RequestDirector
+from src.Utils.GenericClient.RequestBuilder.RequestBuildingDirector import RequestDirector
 
 
 class Client:

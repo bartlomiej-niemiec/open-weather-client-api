@@ -1,17 +1,23 @@
-from src.utils.GenericClient.Utils import parse_text_response_to_format
-from src.utils.GenericClient.BaseClient import Client
-from src.WeatherStationClient.Constants import DELETE_REQ_SUCCESS_CODE
+from src.Utils.GenericClient.Utils import parse_text_response_to_format
+from src.Utils.GenericClient.BaseClient import Client
+from src.Utils.RequestSuccessCodes import DELETE_REQ_SUCCESS_CODE
 from src.WeatherStationClient.WeatherStationManagementClient.StationParameters import StationParameters, RegisterStationParameters
 from src.WeatherStationClient.WeatherStationManagementClient.Utils import WeatherStationManagementApiUrls
 
 
 class WeatherStationManagementClient(Client):
+    """Wrapper for OpenWeather Weather Stations API. - Station Management."""
     _API_URLS = [
         "http://api.openweathermap.org/data/3.0/stations",
         "http://api.openweathermap.org/data/3.0/stations/{station_id}"
     ]
 
     def register_station(self, station: RegisterStationParameters):
+        """register station.
+
+        :param station: data structure with station parameters.
+        :return: parameters of registered station.
+        """
         response = self._send_request(
             'POST',
             url=self._API_URLS[WeatherStationManagementApiUrls.register_or_get_all],
@@ -21,6 +27,11 @@ class WeatherStationManagementClient(Client):
         return StationParameters(station_parameters)
 
     def delete_station(self, station_id):
+        """delete station.
+
+        :param station_id: id of the station to be deleted.
+        :return: true if delete succeed
+        """
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
@@ -32,6 +43,10 @@ class WeatherStationManagementClient(Client):
         return response.status_code == DELETE_REQ_SUCCESS_CODE
 
     def get_all_stations(self):
+        """get all registered stations.
+
+        :return: list of all registered stations.
+        """
         get_request_data = {}
         response = self._send_request(
             'GET',
@@ -44,6 +59,11 @@ class WeatherStationManagementClient(Client):
         return station_object_list
 
     def get_station_info(self, station_id):
+        """get information about single station.
+
+        :param station_id: id of registered station.
+        :return: parameters of registered station.
+        """
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
@@ -56,6 +76,12 @@ class WeatherStationManagementClient(Client):
         return StationParameters(station_parameters)
 
     def update_station_info(self, station_id, station_params: RegisterStationParameters):
+        """update parameters of already registered station.
+
+        :param station_id: id of registered station.
+        :param station_params: new station parameters.
+        :return: updated station parameters.
+        """
         url_with_station_id = self._API_URLS[WeatherStationManagementApiUrls.manage_station].format(
             station_id=station_id
         )
