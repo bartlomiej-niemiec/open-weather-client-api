@@ -1,0 +1,18 @@
+[project]
+name = "openweathermap_api"
+version = "0.0.1"
+authors = [
+  { name="Bartlomiej Niemiec", email="bniemiec11@gmail.com" },
+]
+description = "Python client wrapper to OpenWeatherMap Web API"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/bartlomiej-niemiec/py-open-weather-wrapper"
+Issues = "https://github.com/bartlomiej-niemiec/py-open-weather-wrapper/issues"
