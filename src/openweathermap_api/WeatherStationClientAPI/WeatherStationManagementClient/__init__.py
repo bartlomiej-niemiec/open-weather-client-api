@@ -1,2 +1,0 @@
-from WeatherStationsManagementClient import WeatherStationManagementClient
-from StationParameters import RegisterStationParameters

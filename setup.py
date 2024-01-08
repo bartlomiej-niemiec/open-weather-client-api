@@ -3,7 +3,7 @@ import pathlib
 
 here = pathlib.Path(__file__).parent.resolve()
 
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 DESCRIPTION = 'Wrapper for OpenWeather API.'
 LONG_DESCRIPTION = (here / "README.md").read_text(encoding="utf-8")
 

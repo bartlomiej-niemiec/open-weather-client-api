@@ -1,0 +1,1 @@
+from ._weather_map_client import WeatherMapClient
