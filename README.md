@@ -1,7 +1,7 @@
 # Python Wrapper to OpenWeatherMap API
 
 Python package to interact with OpenWeatherMap API. The package is a client wrapper that allows to easy use of OpenWeatherMap Web API.
-Packege was written in Python3.
+Code was written in Python3.
 
 Package supports only free api's of OpenWeatherMap:
 * Current Weather Data,
